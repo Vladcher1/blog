@@ -5,7 +5,6 @@ import axios from "axios";
 import { ArticlesState } from "../types";
 
 const ARTICLES_URL = `https://api.realworld.io/api/articles?`;
-// limit=5&offset=0
 
 const initialState: ArticlesState = {
   articles: [],
@@ -18,7 +17,6 @@ const initialState: ArticlesState = {
 export const fetchArticlesSlice = createAsyncThunk(
   "articles/fetchArticles",
   async (page: any = 1, { dispatch }) => {
-    console.log(page, "111111111111111111111", { dispatch });
     const limit = 5;
     const offset = page === 1 ? 0 : (page - 1) * 5;
     const { data } = await axios.get(
@@ -35,10 +33,8 @@ export const fetchArticlesSlice = createAsyncThunk(
 export const ArticlesSlice = createSlice({
   name: "articles",
   initialState,
-  //редьюсеры мутируют стейт и ничего не возвращают наружу
   reducers: {
     fetchArticles: (state, action) => {
-      // console.log(action, "ЯЧ ТУТ");
       const { payload } = action;
       const { page } = payload;
       state.articles = payload.payload.articles;
@@ -47,8 +43,8 @@ export const ArticlesSlice = createSlice({
     },
     setStatus: (state, action) => {
       const { payload } = action;
-      state.status = payload
-    }
+      state.status = payload;
+    },
   },
   extraReducers: {
     [fetchArticlesSlice.pending]: (state, action) => {

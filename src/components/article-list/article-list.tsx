@@ -15,8 +15,6 @@ export const ArticleList = () => {
   console.log(articles, "what happens in article list");
   const page = useSelector((state: any) => state.fetchArticles.currentPage);
 
-  const status = useSelector((state) => state);
-  const error = useSelector((state: any) => state.error);
   const dispatch = useDispatch();
 
   const onChange = (page: number) => {
