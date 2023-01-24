@@ -1,22 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  PayloadAction,
-  createAsyncThunk,
-  createEntityAdapter,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import axios from "axios";
+import { ArticlesState } from "../types";
 
 const ARTICLES_URL = `https://api.realworld.io/api/articles?`;
 // limit=5&offset=0
-
-export interface ArticlesState {
-  articles: any[];
-  status: string;
-  error: any;
-  currentPage: number;
-  articlesCount: number | null;
-}
 
 const initialState: ArticlesState = {
   articles: [],
@@ -28,18 +17,18 @@ const initialState: ArticlesState = {
 
 export const fetchArticlesSlice = createAsyncThunk(
   "articles/fetchArticles",
-  async (page: any = 1) => {
-    console.log(page);
+  async (page: any = 1, { dispatch }) => {
+    console.log(page, "111111111111111111111", { dispatch });
     const limit = 5;
     const offset = page === 1 ? 0 : (page - 1) * 5;
-    const response = await axios.get(
+    const { data } = await axios.get(
       `${ARTICLES_URL}limit=${limit}&offset=${offset}`,
       {
         headers: { "content-type": "application/json; charset=utf-8" },
       }
     );
-    console.log("response", response);
-    return response.data;
+    dispatch(fetchArticles({ payload: data, page }));
+    return data;
   }
 );
 
@@ -49,36 +38,18 @@ export const ArticlesSlice = createSlice({
   //редьюсеры мутируют стейт и ничего не возвращают наружу
   reducers: {
     fetchArticles: (state, action) => {
-      console.log("state", action.payload);
-      console.log(action.payload, "ЯЧ ТУТ");
-      state.articles = {
-        ...state,
-        articles: action.payload,
-        currentPage: action.payload.currentPage,
-      };
-      // return { ...state, articles: action.payload };
+      // console.log(action, "ЯЧ ТУТ");
+      const { payload } = action;
+      const { page } = payload;
+      state.articles = payload.payload.articles;
+      state.articlesCount = payload.payload.articlesCount;
+      state.currentPage = page;
     },
-    changePage: (state, action) => {
-      console.log("state in chanhge page", action.payload);
-      state = { ...state, currentPage: action.payload.currentPage };
-      // return { ...state, currentPage: action.payload };
-    },
+    setStatus: (state, action) => {
+      const { payload } = action;
+      state.status = payload
+    }
   },
-  //   extraReducers: (builder) => {
-  //     builder
-  //       .addCase(fetchArticlesSlice.pending, (state, action) => {
-  //         state.status = "loading";
-  //       })
-  //       .addCase(fetchArticlesSlice.fulfilled, (state, action) => {
-  //         state.status = "succeeded";
-  //         console.log(action);
-  //         state.articles = [...state.articles, action.payload];
-  //       })
-  //       .addCase(fetchArticlesSlice.rejected, (state, action) => {
-  //         state.status = "failed";
-  //         state.error = action.error.message;
-  //       });
-  //   },
   extraReducers: {
     [fetchArticlesSlice.pending]: (state, action) => {
       state.status = "loading";
@@ -88,9 +59,7 @@ export const ArticlesSlice = createSlice({
       state.status = "succeeded";
       console.log(action.payload, "fulfilled");
       state.articles = [...action.payload.articles];
-      // state.currentPage = action.payload.currentPage;
       state.currentPage = state.currentPage;
-
       state.articlesCount = action.payload.articlesCount;
     },
     [fetchArticlesSlice.rejected]: (state, action) => {
@@ -102,6 +71,6 @@ export const ArticlesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchArticles, changePage } = ArticlesSlice.actions;
+export const { fetchArticles, setStatus } = ArticlesSlice.actions;
 
 export default ArticlesSlice.reducer;

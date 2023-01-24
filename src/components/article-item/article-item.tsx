@@ -2,17 +2,30 @@ import React from "react";
 import "./article-item.scss";
 import "../../img/like.svg";
 import { makeId } from "../../utilities";
-// import { format } from 'date-fns'
 import { Link } from "react-router-dom";
+import { ArticleState } from "../../types";
 
 export const ArticleItem = ({
   title,
-  description,
   tagList,
-  date,
+  createdAt,
   body,
   favoritesCount,
-}) => {
+  slug,
+}: Pick<
+  ArticleState,
+  | "title"
+  | "description"
+  | "tagList"
+  | "createdAt"
+  | "body"
+  | "favoritesCount"
+  | "slug"
+>) => {
+  const onClick = () => {
+    console.log(slug);
+  };
+
   const newId = makeId();
   const tagSpans = tagList.map((tag: any) => {
     return (
@@ -25,7 +38,7 @@ export const ArticleItem = ({
   return (
     <article className="article-item">
       <header className="article-item__header">
-        <Link to="articles/slug">
+        <Link to={`${slug}`} onClick={onClick}>
           <h5 className="article-item__title">{title} </h5>
         </Link>
         <button className="article-item__like-btn">
@@ -39,7 +52,7 @@ export const ArticleItem = ({
       </header>
       <div className="article-item__article-info">
         {tagSpans}
-        <span className="article-item__date">{date} </span>
+        <span className="article-item__date">{createdAt} </span>
       </div>
       <p className="article-item__paragraph">{body}</p>
     </article>

@@ -17,3 +17,11 @@ export interface AuthorState {
   image: string;
   following: boolean;
 }
+
+export interface ArticlesState {
+  articles: any[];
+  status: string;
+  error: any;
+  currentPage: number;
+  articlesCount: number | null;
+}

@@ -13,7 +13,7 @@ export const Header = () => {
 
   return (
     <header className="blog-header">
-      <Link to={`articles/:${page}`} className="blog-header__logo">
+      <Link to={`articles`} className="blog-header__logo">
         <h6>Realworld Blog</h6>
       </Link>
       <button

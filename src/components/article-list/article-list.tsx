@@ -1,25 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ArticleItem } from "../article-item/article-item";
 import "./article-list.scss";
 import { Pagination } from "antd";
-import { ArticleState } from "../../types";
+import { ArticlesState, ArticleState } from "../../types";
 import { makeId, cutInfo } from "../../utilities";
-import {
-  changePage,
-  fetchArticles,
-  fetchArticlesSlice,
-} from "../../fetchArticles/fetchArticlesSlice";
+import { fetchArticlesSlice } from "../../fetchArticles/fetchArticlesSlice";
 import Spinner from "../spinner/spinner";
-import Error from "../error/error";
 
 export const ArticleList = () => {
-  const articles = useSelector((state) => state.fetchArticles);
+  const articles: ArticlesState = useSelector(
+    (state: any) => state.fetchArticles
+  );
   console.log(articles, "what happens in article list");
-  const page = useSelector((state) => state.fetchArticles.currentPage);
+  const page = useSelector((state: any) => state.fetchArticles.currentPage);
 
   const status = useSelector((state) => state);
-  const error = useSelector((state) => state.error);
+  const error = useSelector((state: any) => state.error);
   const dispatch = useDispatch();
 
   const onChange = (page: number) => {
@@ -42,22 +39,31 @@ export const ArticleList = () => {
       </section>
     );
   }
-
+  const newId = makeId();
   console.log(articles.status, "status");
   const articlesArr = articles.articles.map((article: ArticleState) => {
-    const newId = makeId();
-    const cutText = cutInfo(article.body, 100);
-    const cutTitle = cutInfo(article.title, 50);
+    const {
+      body,
+      slug,
+      title,
+      description,
+      tagList,
+      updatedAt,
+      favoritesCount,
+    } = article;
+    const cutText = cutInfo(body, 100);
+    const cutTitle = cutInfo(title, 50);
 
     return (
       <ArticleItem
+        slug={slug}
         key={newId()}
         title={cutTitle}
         body={cutText}
-        description={article.description}
-        tagList={article.tagList}
-        date={article.updatedAt}
-        favoritesCount={article.favoritesCount}
+        description={description}
+        tagList={tagList}
+        createdAt={updatedAt}
+        favoritesCount={favoritesCount}
       />
     );
   });
