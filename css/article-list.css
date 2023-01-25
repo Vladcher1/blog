@@ -1,8 +1,14 @@
+.article-list-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ebeef3;
+  padding-bottom: 14px;
+}
+
 .article-list {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #ebeef3;
   padding: 25px 0;
   width: 100%;
   height: 100%;
@@ -11,4 +17,8 @@
 .error {
   margin: 20px auto;
   font-size: 30px;
+}
+
+.pagination {
+  margin: 0 auto;
 }

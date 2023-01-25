@@ -6,6 +6,9 @@ import { NotFoundPage } from "../not-found-page/not-found-page";
 import { Layout } from "../layout/layout";
 
 function App() {
+  // const { page } = useParams();
+  // const page = useSelector((state) => state.fetchArticles.currentPage);
+
   return (
     <div className="app">
       <Routes>

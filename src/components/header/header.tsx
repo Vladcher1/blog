@@ -1,12 +1,11 @@
 import "./header.scss";
 import type { RootState } from "../../store/store";
-import { useSelector, useDispatch } from "react-redux";
-// import { decrement, increment } from "../../counter/counterSlice";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+
 export const Header = () => {
   const count = useSelector((state: RootState) => state.counter.value);
-
-  // const dispatch = useDispatch();
+  const { page } = useParams();
 
   return (
     <header className="blog-header">

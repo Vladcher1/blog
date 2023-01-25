@@ -4,6 +4,7 @@ import "../../img/like.svg";
 import { makeId } from "../../utilities";
 import { Link } from "react-router-dom";
 import { ArticleState } from "../../types";
+import { format } from "date-fns";
 
 export const ArticleItem = ({
   title,
@@ -12,6 +13,7 @@ export const ArticleItem = ({
   body,
   favoritesCount,
   slug,
+  author,
 }: Pick<
   ArticleState,
   | "title"
@@ -21,6 +23,7 @@ export const ArticleItem = ({
   | "body"
   | "favoritesCount"
   | "slug"
+  | "author"
 >) => {
   const onClick = () => {
     console.log(slug);
@@ -35,6 +38,8 @@ export const ArticleItem = ({
     );
   });
 
+  console.log(author);
+
   return (
     <article className="article-item">
       <header className="article-item__header">
@@ -47,12 +52,20 @@ export const ArticleItem = ({
             {favoritesCount}
           </span>
         </button>
-        <div className="article-item__nickname">John Doe</div>
-        <div className="article-item__icon">icon</div>
+        <div className="article-item__nickname-container">
+          <div className="article-item__nickname">{author.username}</div>
+          <span className="article-item__date">
+            {format(new Date(createdAt), "LLLL 	d, y")}
+          </span>
+        </div>
+        <img
+          className="article-item__icon"
+          src={author.image}
+          alt={author.username}
+        />
       </header>
-      <div className="article-item__article-info">
+      <div className="article-item__article-tags">
         {tagSpans}
-        <span className="article-item__date">{createdAt} </span>
       </div>
       <p className="article-item__paragraph">{body}</p>
     </article>

@@ -16,9 +16,14 @@
 }
 
 .article-item__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  margin-left: 12px;
 }
 .article-item__title {
   color: #1890ff;
+  text-decoration: none;
   font-size: 20px;
   line-height: 28px;
   margin: 0;
@@ -33,6 +38,7 @@
   color: rgba(0, 0, 0, 0.85);
 }
 .article-item__tag {
+  margin-right: 8px;
   padding: 3px 6px;
   font-size: 12px;
   line-height: 15px;
@@ -46,6 +52,7 @@
 }
 .article-item__date {
   color: rgba(0, 0, 0, 0.5);
+  display: block;
 }
 
 .article-item__paragraph {
@@ -66,4 +73,12 @@
 
 .article-item__like-btn-number {
   align-items: center;
+}
+
+.article-item__nickname-container {
+  margin-left: auto;
+}
+
+a {
+  text-decoration: none;
 }

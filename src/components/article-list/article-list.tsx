@@ -38,7 +38,7 @@ export const ArticleList = () => {
     );
   }
   const newId = makeId();
-  console.log(articles.status, "status");
+  // console.log(articles.status, "status");
   const articlesArr = articles.articles.map((article: ArticleState) => {
     const {
       body,
@@ -48,12 +48,15 @@ export const ArticleList = () => {
       tagList,
       updatedAt,
       favoritesCount,
+      author,
     } = article;
+    console.log(article);
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
 
     return (
       <ArticleItem
+        author={author}
         slug={slug}
         key={newId()}
         title={cutTitle}
@@ -67,14 +70,15 @@ export const ArticleList = () => {
   });
 
   return (
-    <React.Fragment>
+    <div className="article-list-container">
       <section className="article-list">{articlesArr}</section>
       <Pagination
+        className="pagination"
         current={page}
         total={articles.articlesCount}
         pageSize={5}
         onChange={onChange}
       />
-    </React.Fragment>
+    </div>
   );
 };
