@@ -48,15 +48,13 @@ export const ArticleItemPage = () => {
     title,
     description,
     tagList,
-    updatedAt,
     favoritesCount,
     author,
     createdAt,
-  } = article.article;
+  }: any = article.article;
 
   {
     const newId = makeId();
-    // const markdown = `${body}`;
 
     return (
       <article className="full-page-article">

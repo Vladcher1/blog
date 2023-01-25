@@ -12,7 +12,6 @@ export const ArticleList = () => {
   const articles: ArticlesState = useSelector(
     (state: any) => state.fetchArticles
   );
-  // console.log(articles, "what happens in article list");
   const page = useSelector((state: any) => state.fetchArticles.currentPage);
 
   const dispatch = useDispatch();

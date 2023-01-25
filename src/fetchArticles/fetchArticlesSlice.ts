@@ -47,18 +47,18 @@ export const ArticlesSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchArticlesSlice.pending]: (state, action) => {
+    [fetchArticlesSlice.pending]: (state: any, action: any) => {
       state.status = "loading";
       state.error = null;
     },
-    [fetchArticlesSlice.fulfilled]: (state, action) => {
+    [fetchArticlesSlice.fulfilled]: (state: any, action: any) => {
       state.status = "succeeded";
       console.log(action.payload, "fulfilled");
       state.articles = [...action.payload.articles];
       state.currentPage = state.currentPage;
       state.articlesCount = action.payload.articlesCount;
     },
-    [fetchArticlesSlice.rejected]: (state, action) => {
+    [fetchArticlesSlice.rejected]: (state: any, action: any) => {
       console.log(action.error);
       state.status = "failed";
       console.log(action);

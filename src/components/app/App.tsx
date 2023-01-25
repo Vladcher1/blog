@@ -4,21 +4,16 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ArticleItemPage } from "../article-item-page/article-item-page";
 import { NotFoundPage } from "../not-found-page/not-found-page";
 import { Layout } from "../layout/layout";
-import { ErrorBoundary } from "react-error-boundary";
 import { useEffect, useState } from "react";
-import { ErrorFallback } from "../error/NetworkError";
-import { useSelector } from "react-redux";
 import { NetworkError } from "../error/NetworkError";
 const App = () => {
   const [network, setNetwork] = useState(true);
 
   useEffect(() => {
-    // console.log(error);
     window.onoffline = () => {
       setNetwork(false);
     };
     window.ononline = () => {
-      console.log(" network");
       setNetwork(true);
     };
   });
