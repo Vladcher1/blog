@@ -30,7 +30,7 @@ export const ArticleList = () => {
     );
   }
   if (articles.error !== null) {
-    console.log("тут есть ошибка");
+    console.log("тут есть ошибка", articles.error);
     return (
       <section className="article-list">
         <div className="error">oops, something went wrong :(</div>

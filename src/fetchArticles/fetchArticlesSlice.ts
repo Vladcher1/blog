@@ -59,11 +59,27 @@ export const ArticlesSlice = createSlice({
       state.articlesCount = action.payload.articlesCount;
     },
     [fetchArticlesSlice.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.log(action.error);
       state.status = "failed";
       console.log(action);
-      
-      state.error = action.error.message;
+      state.error = action.error;
+
+      if (action.error.response) {
+        // Запрос был сделан, и сервер ответил кодом состояния, который
+        // выходит за пределы 2xx
+        console.log(action.error.response.data);
+        console.log(action.error.response.status);
+        console.log(action.error.response.headers);
+      } else if (action.error.request) {
+        // Запрос был сделан, но ответ не получен
+        // `error.request`- это экземпляр XMLHttpRequest в браузере и экземпляр
+        // http.ClientRequest в node.js
+        console.log(action.error.request);
+      } else {
+        // Произошло что-то при настройке запроса, вызвавшее ошибку
+        console.log("Error", action.error.message);
+      }
+      console.log(action.error.config);
     },
   },
 });

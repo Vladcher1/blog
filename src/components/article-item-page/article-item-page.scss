@@ -1,0 +1,44 @@
+.full-page-article {
+  display: flex;
+  flex-direction: column;
+  margin: 24px auto;
+  width: 941px;
+  background-color: #ffffff;
+  padding: 19px;
+  min-height: 870px;
+}
+
+.full-page-article__header {
+  display: flex;
+  align-items: flex-start;
+  justify-items: flex-start;
+}
+.full-page-article__title {
+  flex-basis: 50%;
+  font-size: 20px;
+  line-height: 28px;
+  color: #1890ff;
+  margin: 0;
+  margin-bottom: 6px;
+  margin-right: 13px;
+}
+
+.full-page-article__like-btn {
+  background-color: transparent;
+  width: 16px;
+  height: 13px;
+  border: none;
+}
+.full-page-article__like-btn-number {
+}
+
+.full-page-article__tags {
+  margin-bottom: 19px;
+}
+
+.full-page-article__article-info {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+  line-height: 22px;
+  margin-bottom: 25px;
+}
