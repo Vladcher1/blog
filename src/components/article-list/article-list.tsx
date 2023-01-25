@@ -12,7 +12,7 @@ export const ArticleList = () => {
   const articles: ArticlesState = useSelector(
     (state: any) => state.fetchArticles
   );
-  console.log(articles, "what happens in article list");
+  // console.log(articles, "what happens in article list");
   const page = useSelector((state: any) => state.fetchArticles.currentPage);
 
   const dispatch = useDispatch();
@@ -38,7 +38,6 @@ export const ArticleList = () => {
     );
   }
   const newId = makeId();
-  // console.log(articles.status, "status");
   const articlesArr = articles.articles.map((article: ArticleState) => {
     const {
       body,
@@ -50,7 +49,7 @@ export const ArticleList = () => {
       favoritesCount,
       author,
     } = article;
-    console.log(article);
+    // console.log(article);
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
 

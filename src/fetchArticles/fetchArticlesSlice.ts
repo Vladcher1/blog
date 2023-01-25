@@ -61,6 +61,8 @@ export const ArticlesSlice = createSlice({
     [fetchArticlesSlice.rejected]: (state, action) => {
       console.log(action.payload);
       state.status = "failed";
+      console.log(action);
+      
       state.error = action.error.message;
     },
   },

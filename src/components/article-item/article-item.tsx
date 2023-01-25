@@ -38,7 +38,7 @@ export const ArticleItem = ({
     );
   });
 
-  console.log(author);
+  // console.log(author);
 
   return (
     <article className="article-item">
