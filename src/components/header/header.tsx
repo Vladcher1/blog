@@ -9,7 +9,7 @@ export const Header = () => {
 
   return (
     <header className="blog-header">
-      <Link to={`articles`} className="blog-header__logo">
+      <Link to={``} className="blog-header__logo">
         <h6>Realworld Blog</h6>
       </Link>
       <button
