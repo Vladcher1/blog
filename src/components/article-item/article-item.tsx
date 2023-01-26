@@ -47,7 +47,7 @@ export const ArticleItem = ({
           <h5 className="article-item__title">{title} </h5>
         </Link>
         <button className="article-item__like-btn">
-          <img src="./like.svg" alt="like" />
+          <img src="/like.svg" alt="like" />
           <span className="article-item__like-btn-number">
             {favoritesCount}
           </span>
@@ -64,9 +64,7 @@ export const ArticleItem = ({
           alt={author.username}
         />
       </header>
-      <div className="article-item__article-tags">
-        {tagSpans}
-      </div>
+      <div className="article-item__article-tags">{tagSpans}</div>
       <p className="article-item__paragraph">{body}</p>
     </article>
   );

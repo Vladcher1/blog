@@ -12,12 +12,8 @@ export const Header = () => {
       <Link to={``} className="blog-header__logo">
         <h6>Realworld Blog</h6>
       </Link>
-      <button
-        type="button"
-        className="button sign-in-btn"
-        // onClick={() => dispatch(increment())}
-      >
-        Sign In
+      <button type="button" className="button sign-in-btn">
+        <Link to="/sign-in">Sign In</Link>
       </button>
       <button
         type="button"
@@ -25,7 +21,7 @@ export const Header = () => {
         // onClick={() => dispatch(decrement())}
       >
         {count}
-        Sign Out
+        <Link to="/sign-up">Sign Out</Link>
       </button>
     </header>
   );

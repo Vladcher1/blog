@@ -6,6 +6,8 @@ import { NotFoundPage } from "../not-found-page/not-found-page";
 import { Layout } from "../layout/layout";
 import { useEffect, useState } from "react";
 import { NetworkError } from "../error/NetworkError";
+import { SignInPage } from "../sign-in-page/sign-in-gape";
+import { SignUpPage } from "../sign-up-page/sign-up-page";
 const App = () => {
   const [network, setNetwork] = useState(true);
 
@@ -27,6 +29,12 @@ const App = () => {
           <Route path="articles" element={<ArticleList />} />
           <Route path=":slug" element={<ArticleItemPage />} />
           <Route path="*" element={<NotFoundPage />} />
+        </Route>
+        <Route path="/*" element={<Layout />}>
+          <Route path="sign-in" element={<SignInPage />} />
+        </Route>
+        <Route path="/*" element={<Layout />}>
+          <Route path="sign-up" element={<SignUpPage />} />
         </Route>
         <Route path="/" element={<Navigate to="/articles" />} />
       </Routes>
