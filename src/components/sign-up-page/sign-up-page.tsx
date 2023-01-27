@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { signUp, signUpUserSlice } from "../../user/signUpSlice";
 import { useForm } from "react-hook-form";
-import { isConstructorDeclaration } from "typescript";
 
 export const SignUpPage = () => {
   const dispatch = useDispatch();
@@ -44,6 +43,7 @@ export const SignUpPage = () => {
       console.log("задиспатчено");
     }
     console.log(data);
+    reset();
     // console.log(username, email, password, repeatPassword);
     // setUsername("");
     // setEmail("");
@@ -54,8 +54,12 @@ export const SignUpPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    reset,
+    formState: { errors, isValid },
+  } = useForm({ mode: "onBlur" });
+
+  const EMAIL_REGEXP =
+    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
   return (
     <section className="sign-up">
@@ -70,12 +74,8 @@ export const SignUpPage = () => {
             inputType="text"
             minLength={3}
             maxLength={20}
+            errors={errors}
           />
-          <div className="validation-error">
-            {errors.username && (
-              <span>{errors?.username?.message || "Error!"}</span>
-            )}
-          </div>
         </div>
         <div className="sign-up__email">
           <Input
@@ -84,10 +84,11 @@ export const SignUpPage = () => {
             label="email address"
             placeholder={"email address"}
             inputType={"text"}
+            minLength={3}
+            maxLength={20}
+            errors={errors}
+            pattern={EMAIL_REGEXP}
           />
-          <div className="validation-error">
-            {errors["email address"] && <span>Error!</span>}
-          </div>
         </div>
         <div className="sign-up__password">
           <Input
@@ -95,25 +96,23 @@ export const SignUpPage = () => {
             required
             label="password"
             placeholder={"password"}
-            // inputType={"text"}
-            // inputChange={inputChange}
+            inputType={"text"}
+            minLength={6}
+            maxLength={40}
+            errors={errors}
           />
-          <div className="validation-error">
-            {errors.password && <span>Error!</span>}
-          </div>
         </div>
         <div className="sign-up__repeat-password">
           <Input
             label="repeat password"
             placeholder={"repeat password"}
-            // inputType={"text"}
-            // inputChange={inputChange}
+            inputType={"text"}
+            minLength={3}
+            maxLength={20}
             register={register}
             required
+            errors={errors}
           />
-          <div className="validation-error">
-            {errors["repeat password"] && <span>Error!</span>}
-          </div>
         </div>
         <div className="sign-up__agreement">
           <label className="sign-up__agreement-label">
@@ -121,7 +120,7 @@ export const SignUpPage = () => {
             information
           </label>
         </div>
-        <SubmitButton button="Create" />
+        <SubmitButton button="Create" isValid={isValid} />
         <span className="sign-up__sign-in-link">
           Already have an account?{" "}
           <Link to={"/sign-in"} className="sign-up-link">
