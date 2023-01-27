@@ -2,33 +2,12 @@ import { Link } from "react-router-dom";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./sign-up-page.scss";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { signUp, signUpUserSlice } from "../../user/signUpSlice";
 import { useForm } from "react-hook-form";
 
 export const SignUpPage = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [repeatPassword, setRepeatPassword] = useState();
-  const [agree, setAgree] = useState(false);
-
-  // const inputChange = (text, input) => {
-  //   if (input === "username") {
-  //     setUsername(text);
-  //   }
-  //   if (input === "email address") {
-  //     setEmail(text);
-  //   }
-  //   if (input === "password") {
-  //     setPassword(text);
-  //   }
-  //   if (input === "repeat password") {
-  //     setRepeatPassword(text);
-  //   }
-  // };
 
   const onSubmit = (data) => {
     const {
@@ -44,11 +23,6 @@ export const SignUpPage = () => {
     }
     console.log(data);
     reset();
-    // console.log(username, email, password, repeatPassword);
-    // setUsername("");
-    // setEmail("");
-    // setPassword("");
-    // setRepeatPassword("");
   };
 
   const {
@@ -116,8 +90,14 @@ export const SignUpPage = () => {
         </div>
         <div className="sign-up__agreement">
           <label className="sign-up__agreement-label">
-            <input type="checkbox" />I agree to the processing of my personal
-            information
+            <input
+              className="sign-up__agreement-input"
+              type="checkbox"
+              {...register("agree", {
+                required: "Required area",
+              })}
+            />
+            I agree to the processing of my personal information
           </label>
         </div>
         <SubmitButton button="Create" isValid={isValid} />

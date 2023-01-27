@@ -17,12 +17,12 @@ export const Input = ({
 
   return (
     <label className="label">
-      {label}
+      {label[0].toUpperCase() + label.slice(1)}
       <input
         style={inputErrorStyle}
         className="input"
         {...register(label, {
-          required: "Required area",
+          required: `${label} is required`,
           minLength: {
             value: minLength,
             message: `Your ${label} needs to be at least ${minLength} characters.`,
