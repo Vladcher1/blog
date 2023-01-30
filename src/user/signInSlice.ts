@@ -1,29 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
 import axios from "axios";
-import { ArticlesState } from "../types";
-
+import { ArticlesState, UserState, CurrentUserState } from "../types";
 const ARTICLES_URL = `https://api.realworld.io/api/articles?`;
 
-const initialState: ArticlesState = {
-  articles: [],
+const initialState: CurrentUserState = {
+  user: null,
+  isLogged: false,
   status: "loading", //'loading', 'succeeded', 'fail'
-  error: null,
-  currentPage: 1,
-  articlesCount: null,
 };
 
 export const signInUserSlice = createAsyncThunk(
   "user/signInUser",
   async (user, { dispatch }) => {
-    const { password, email } = user;
+    const { password, email }: any = user;
     const { data } = await axios.post(
       `https://api.realworld.io/api/users/login`,
       {
         user: {
-          email: "string",
-          password: "string",
+          email: `${email}`,
+          password: `${password}`,
         },
       }
     );
@@ -41,7 +37,8 @@ export const UserSlice = createSlice({
       const { payload } = action;
       // const { page } = payload;
       console.log("in signup", state, action);
-      // state.articles = payload.payload.articles;
+
+      state.user = payload.payload.user;
       // state.articlesCount = payload.payload.articlesCount;
       // state.currentPage = page;
     },
@@ -58,13 +55,14 @@ export const UserSlice = createSlice({
     [signInUserSlice.fulfilled]: (state: any, action: any) => {
       state.status = "succeeded";
       console.log(action.payload, "fulfilled");
-      // state.articles = [...action.payload.articles];
-      // state.currentPage = state.currentPage;
-      // state.articlesCount = action.payload.articlesCount;
+      // state.user = [...action.payload.articles];
+      state.isLogged = true;
+      // state.users = action.payload.user.user;
     },
     [signInUserSlice.rejected]: (state: any, action: any) => {
       console.log(action.error);
-      // state.status = "failed";
+      state.status = "failed";
+      
       // console.log(action);
       // state.error = action.error;
 

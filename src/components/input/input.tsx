@@ -11,6 +11,7 @@ export const Input = ({
   errors,
   pattern,
 }: any) => {
+  
   const inputErrorStyle = errors[label] && {
     borderColor: "#F5222D",
   };

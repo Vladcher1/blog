@@ -25,3 +25,17 @@ export interface ArticlesState {
   currentPage: number;
   articlesCount: number | null;
 }
+
+export interface UserState {
+  bio: null | string[];
+  email: string | null;
+  image: string | null;
+  token: string | null;
+  username: string | null;
+}
+
+export interface CurrentUserState {
+  isLogged: boolean;
+  user: UserState | null;
+  status: string;
+}

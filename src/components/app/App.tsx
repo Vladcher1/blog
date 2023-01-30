@@ -20,6 +20,10 @@ const App = () => {
     };
   });
 
+  useEffect(() => {
+    
+  })
+
   return (
     <div className="app">
       {!network && <NetworkError />}

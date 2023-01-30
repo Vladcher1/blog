@@ -5,49 +5,77 @@ import { SubmitButton } from "../submit-button/submit-button";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { signInUserSlice } from "../../user/signInSlice";
+import { useForm } from "react-hook-form";
 
 export const SignInPage = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
 
-  const inputChange = (text, input) => {
-    if (input === "Email address") {
-      setEmail(text);
-    }
-    if (input === "Password") {
-      setPassword(text);
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm({ mode: "onBlur" });
 
-  const onSubmit = () => {
-    console.log(email, password);
+  const EMAIL_REGEXP =
+    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
+  // const [email, setEmail] = useState();
+  // const [password, setPassword] = useState();
+
+  // const inputChange = (text, input) => {
+  //   if (input === "Email address") {
+  //     setEmail(text);
+  //   }
+  //   if (input === "Password") {
+  //     setPassword(text);
+  //   }
+  // };
+
+  // const onSubmit = () => {
+  //   console.log(email, password);
+  //   dispatch(signInUserSlice({ email, password }));
+  //   setEmail("");
+  //   setPassword("");
+  // };
+
+  const onSubmit = (data) => {
+    console.log(data);
+    const { ["email address"]: email, password } = data;
+    // console.log(email, password);
     dispatch(signInUserSlice({ email, password }));
-    setEmail("");
-    setPassword("");
+    console.log("задиспатчено");
+    reset();
   };
 
   return (
     <section className="sign-in">
       <h2 className="sign-in__title">Sign In</h2>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="sign-in__login">
           <Input
-            label={"Email address"}
+            register={register}
+            required
+            label="email address"
+            errors={errors}
+            pattern={EMAIL_REGEXP}
             placeholder={"Email address"}
             inputType={"text"}
-            inputChange={inputChange}
           />
         </div>
         <div className="sign-in__password">
           <Input
-            label={"Password"}
+            register={register}
+            required
+            label="password"
+            errors={errors}
+            minLength={6}
+            maxLength={40}
             placeholder={"Password"}
             inputType={"text"}
-            inputChange={inputChange}
           />
         </div>
-        <SubmitButton button={"Login"} onSubmit={onSubmit} />
+        <SubmitButton button="Login" isValid={isValid} />
         <span className="sign-in__sign-up-link">
           Don’t have an account?{" "}
           <Link to={"/sign-up"} className="sign-up-link">

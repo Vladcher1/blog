@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
 import axios from "axios";
 import { ArticlesState } from "../types";
-
+// import initialState from "../fetchArticles/fetchArticlesSlice";
 const ARTICLES_URL = `https://api.realworld.io/api/articles?`;
 
-const initialState: ArticlesState = {
+export const initialState: ArticlesState = {
   articles: [],
   status: "loading", //'loading', 'succeeded', 'fail'
   error: null,

@@ -7,6 +7,7 @@ import { ArticlesState } from "../types";
 const ARTICLES_URL = `https://api.realworld.io/api/articles?`;
 
 const initialState: ArticlesState = {
+  user: null,
   articles: [],
   status: "loading", //'loading', 'succeeded', 'fail'
   error: null,
