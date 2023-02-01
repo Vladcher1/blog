@@ -1,15 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import "./sign-in-page.scss";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { signInUserSlice } from "../../user/signInSlice";
+import { signInUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { ErrorNotification } from "../errorNotification/errorNotification";
 
 export const SignInPage = () => {
   const dispatch = useDispatch();
-
+  const error = useSelector((state) => state.user.error);
   const {
     register,
     handleSubmit,
@@ -20,31 +22,9 @@ export const SignInPage = () => {
   const EMAIL_REGEXP =
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
-  // const [email, setEmail] = useState();
-  // const [password, setPassword] = useState();
-
-  // const inputChange = (text, input) => {
-  //   if (input === "Email address") {
-  //     setEmail(text);
-  //   }
-  //   if (input === "Password") {
-  //     setPassword(text);
-  //   }
-  // };
-
-  // const onSubmit = () => {
-  //   console.log(email, password);
-  //   dispatch(signInUserSlice({ email, password }));
-  //   setEmail("");
-  //   setPassword("");
-  // };
-
   const onSubmit = (data) => {
-    console.log(data);
     const { ["email address"]: email, password } = data;
-    // console.log(email, password);
     dispatch(signInUserSlice({ email, password }));
-    console.log("задиспатчено");
     reset();
   };
 
@@ -76,6 +56,7 @@ export const SignInPage = () => {
           />
         </div>
         <SubmitButton button="Login" isValid={isValid} />
+
         <span className="sign-in__sign-up-link">
           Don’t have an account?{" "}
           <Link to={"/sign-up"} className="sign-up-link">

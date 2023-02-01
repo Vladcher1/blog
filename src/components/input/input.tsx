@@ -10,20 +10,25 @@ export const Input = ({
   inputType,
   errors,
   pattern,
+  defaultValue,
+  textLabel
 }: any) => {
-  
   const inputErrorStyle = errors[label] && {
     borderColor: "#F5222D",
   };
 
   return (
     <label className="label">
-      {label[0].toUpperCase() + label.slice(1)}
+      {textLabel}
       <input
         style={inputErrorStyle}
+        defaultValue={defaultValue}
         className="input"
         {...register(label, {
-          required: `${label} is required`,
+          required: {
+            value: required,
+            message: `${label} is required`,
+          },
           minLength: {
             value: minLength,
             message: `Your ${label} needs to be at least ${minLength} characters.`,

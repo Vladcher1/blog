@@ -35,7 +35,19 @@ export interface UserState {
 }
 
 export interface CurrentUserState {
-  isLogged: boolean;
+  error: string | null;
+  isLogged: boolean | null;
   user: UserState | null;
   status: string;
+}
+
+export interface NewUserData {
+  newEmail: Pick<UserState, "email">;
+  newPassword: string;
+  newImage: Pick<UserState, "image">;
+  newUsername: Pick<UserState, "username">;
+}
+
+export interface updateUserData extends UserState {
+  token: string | null;
 }

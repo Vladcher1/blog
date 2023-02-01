@@ -3,11 +3,14 @@ import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./sign-up-page.scss";
 import { useDispatch } from "react-redux";
-import { signUp, signUpUserSlice } from "../../user/signUpSlice";
+import { signUpUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
+import { ErrorNotification } from "../errorNotification/errorNotification";
+import { useSelector } from "react-redux";
 
 export const SignUpPage = () => {
   const dispatch = useDispatch();
+  const error = useSelector((state) => state.user.error);
 
   const onSubmit = (data) => {
     const {
@@ -16,12 +19,9 @@ export const SignUpPage = () => {
       password,
       ["repeat password"]: repeatPassword,
     } = data;
-    console.log(password, repeatPassword);
     if (password.trim() === repeatPassword.trim()) {
       dispatch(signUpUserSlice({ username, email, password }));
-      console.log("задиспатчено");
     }
-    console.log(data);
     reset();
   };
 

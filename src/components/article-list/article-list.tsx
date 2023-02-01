@@ -29,7 +29,6 @@ export const ArticleList = () => {
     );
   }
   if (articles.error !== null) {
-    console.log("тут есть ошибка", articles.error);
     return (
       <section className="article-list">
         <div className="error">oops, something went wrong :(</div>
@@ -48,7 +47,6 @@ export const ArticleList = () => {
       favoritesCount,
       author,
     } = article;
-    // console.log(article);
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
 

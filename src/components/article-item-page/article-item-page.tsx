@@ -33,8 +33,6 @@ export const ArticleItemPage = () => {
     getArticle();
   }, [slug]);
 
-  console.log(status);
-
   if (status === "loading") {
     return (
       <article className="full-page-article">

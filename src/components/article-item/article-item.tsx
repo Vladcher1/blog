@@ -25,10 +25,6 @@ export const ArticleItem = ({
   | "slug"
   | "author"
 >) => {
-  const onClick = () => {
-    console.log(slug);
-  };
-
   const newId = makeId();
   const tagSpans = tagList.map((tag: any) => {
     return (
@@ -38,12 +34,10 @@ export const ArticleItem = ({
     );
   });
 
-  // console.log(author);
-
   return (
     <article className="article-item">
       <header className="article-item__header">
-        <Link to={`${slug}`} onClick={onClick}>
+        <Link to={`${slug}`}>
           <h5 className="article-item__title">{title} </h5>
         </Link>
         <button className="article-item__like-btn">
