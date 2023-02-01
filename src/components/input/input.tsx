@@ -11,7 +11,7 @@ export const Input = ({
   errors,
   pattern,
   defaultValue,
-  textLabel
+  textLabel,
 }: any) => {
   const inputErrorStyle = errors[label] && {
     borderColor: "#F5222D",
@@ -27,7 +27,7 @@ export const Input = ({
         {...register(label, {
           required: {
             value: required,
-            message: `${label} is required`,
+            message: `${textLabel} is required`,
           },
           minLength: {
             value: minLength,

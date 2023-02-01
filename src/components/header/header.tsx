@@ -1,9 +1,7 @@
 import "./header.scss";
-import type { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import React, { useEffect } from "react";
-import { checkCurrentUser, logOut } from "../../user/userSlice";
+import { Link } from "react-router-dom";
+import { logOut } from "../../user/userSlice";
 
 export const Header = () => {
   const userInfo = useSelector((state) => state.user);
@@ -39,7 +37,14 @@ export const Header = () => {
             {userInfo.user.username}
           </span>
         </Link>
-        <img className="blog-header__profile-image" src={userInfo.user.image} />
+        <img
+          className="blog-header__profile-image"
+          src={
+            userInfo.user.image ??
+            "https://api.realworld.io/images/smiley-cyrus.jpeg"
+          }
+          alt={userInfo.user.username}
+        />
       </div>
       <Link
         className="button sign-out-btn active"

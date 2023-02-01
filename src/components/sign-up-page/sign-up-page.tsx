@@ -5,20 +5,14 @@ import "./sign-up-page.scss";
 import { useDispatch } from "react-redux";
 import { signUpUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
-import { ErrorNotification } from "../errorNotification/errorNotification";
 import { useSelector } from "react-redux";
 
 export const SignUpPage = () => {
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.user.error);
 
   const onSubmit = (data) => {
-    const {
-      username,
-      email,
-      password,
-      ["repeat password"]: repeatPassword,
-    } = data;
+    const { username, email, password, repeatPassword } = data;
+    console.log(data);
     if (password.trim() === repeatPassword.trim()) {
       dispatch(signUpUserSlice({ username, email, password }));
     }
@@ -53,9 +47,10 @@ export const SignUpPage = () => {
         </div>
         <div className="sign-up__email">
           <Input
+            textLabel="email address"
             register={register}
             required
-            label="email address"
+            label="email"
             placeholder={"email address"}
             inputType={"text"}
             minLength={3}
@@ -78,7 +73,8 @@ export const SignUpPage = () => {
         </div>
         <div className="sign-up__repeat-password">
           <Input
-            label="repeat password"
+            textLabel="repeat password"
+            label="repeatPassword"
             placeholder={"repeat password"}
             inputType={"text"}
             minLength={3}

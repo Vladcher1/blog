@@ -19,7 +19,7 @@ export const ArticleItemPage = () => {
   useEffect(() => {
     const getArticle = async () => {
       const { data } = await axios.get(
-        `https://api.realworld.io/api/articles/${slug}`,
+        `https://blog.kata.academy/api/articles/${slug}`,
         {
           headers: { "content-type": "application/json; charset=utf-8" },
         }

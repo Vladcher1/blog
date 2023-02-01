@@ -8,7 +8,7 @@ import "./editProfile.scss";
 export const EditProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
+  console.log(user.user);
   const onSubmit = (data) => {
     console.log(data);
     //     const { ["avatar image (url)"]: image, ["email address"]: email, ["new password
@@ -24,10 +24,10 @@ export const EditProfile = () => {
 
     console.log(newEmail, email);
     const needToUpdate =
-      newEmail !== user.user.email ||
-      newImage !== user.user.image ||
-      newPassword !== user.user.password ||
-      newUsername !== user.user.username;
+      (newEmail !== user.user.email && newEmail !== "") ||
+      (newImage !== user.user.image && newImage !== "") ||
+      (newPassword !== user.user.password && newPassword !== "") ||
+      (newUsername !== user.user.username && newUsername !== "");
 
     if (needToUpdate) {
       console.log(newEmail, newImage, newPassword, newUsername);

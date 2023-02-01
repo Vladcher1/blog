@@ -11,7 +11,6 @@ import { SignUpPage } from "../sign-up-page/sign-up-page";
 import { EditProfile } from "../editProfile/editProfile";
 import { useSelector } from "react-redux";
 import { ErrorNotification } from "../errorNotification/errorNotification";
-import Spinner from "../spinner/spinner";
 
 const App = () => {
   const [network, setNetwork] = useState(true);
@@ -25,17 +24,8 @@ const App = () => {
       setNetwork(true);
     };
   });
-  const status = useSelector((state) => state.user.status);
   const error = useSelector((state) => state.user.error);
-  console.log(isLogged, "isLogged", status, "status", error, "error");
 
-  if (status === "loading") {
-    return (
-      <div className="app">
-        <Spinner />
-      </div>
-    );
-  }
 
   return (
     <div className="app">
@@ -60,17 +50,11 @@ const App = () => {
           <Route path="sign-up" element={<SignUpPage />} />
         </Route>
         <Route path="/*" element={<Layout />}>
-          {/* {isLogged && <Route path="profile" element={<EditProfile />} />} */}
           <Route
             path="profile"
             element={isLogged ? <EditProfile /> : <Navigate to="/sign-in" />}
           />
-
-          {/* {!isLogged && (
-            <Route path="profile" element={<Navigate to="/sign-in" />} />
-          )} */}
         </Route>
-         {/* <Route path="/profile" element="" /> */}
         <Route path="/" element={<Navigate to="/articles" />} />
       </Routes>
     </div>

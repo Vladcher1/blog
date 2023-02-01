@@ -3,7 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { CurrentUserState, NewUserData } from "../types";
 
-
 const API_URL = "https://api.realworld.io/api/";
 // https://blog.kata.academy/api/
 
@@ -17,31 +16,44 @@ export const initialState: CurrentUserState = {
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (
-    { newEmail, newPassword, newImage, newUsername }: NewUserData,
+    {
+      newEmail,
+      newPassword,
+      newImage = "https://api.realworld.io/images/smiley-cyrus.jpeg",
+      newUsername,
+    }: NewUserData,
     { rejectWithValue, dispatch }
   ) => {
     try {
       console.log(newEmail, newPassword, newImage, newUsername);
+      const json = JSON.stringify({
+        user: {
+          username: newUsername,
+          email: newEmail,
+          password: newPassword,
+          image: newImage,
+        },
+      });
+      console.log(json);
       const token = localStorage.getItem("userToken");
-      console.log(token);
+      console.log(token, "its a token i need");
       const { data }: any = await axios.put(
         `https://blog.kata.academy/api/user`,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+          user: {
+            username: newUsername,
+            email: newEmail,
+            password: newPassword,
+            image: newImage,
           },
-          body: {
-            user: {
-              username: `${newUsername}`,
-              email: `${newEmail}`,
-              image: `${newImage}`,
-              password: `${newPassword}`,
-            },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log(data);
+
       dispatch(signIn({ payload: data }));
       return data;
     } catch (error) {
@@ -68,11 +80,13 @@ export const checkCurrentUser = createAsyncThunk(
   async (token, { rejectWithValue, dispatch }) => {
     try {
       if (token !== undefined) {
-        const { data } = await axios.get(`https://api.realworld.io/api/user`, {
+        const { data } = await axios.get(`https://blog.kata.academy/api/user`, {
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log("getting perfon", data);
         dispatch(signIn({ payload: data }));
         console.log(data);
         return data;
@@ -99,7 +113,7 @@ export const signInUserSlice = createAsyncThunk(
     try {
       const { password, email }: any = user;
       const { data } = await axios.post(
-        `https://api.realworld.io/api/users/login`,
+        `https://blog.kata.academy/api/users/login`,
         {
           user: {
             email: `${email}`,
@@ -134,13 +148,15 @@ export const signUpUserSlice = createAsyncThunk(
   async (user, { rejectWithValue, dispatch }) => {
     try {
       const { username, password, email }: any = user;
-      const { data } = await axios.post(`https://api.realworld.io/api/users`, {
+      console.log(user, "user");
+      const { data } = await axios.post(`https://blog.kata.academy/api/users`, {
         user: {
-          username,
-          email,
-          password,
+          username: `${username}`,
+          email: `${email}`,
+          password: `${password}`,
         },
       });
+      console.log(data);
       dispatch(signUp({ payload: data }));
       return data;
     } catch (error: any) {
@@ -173,6 +189,7 @@ export const UserSlice = createSlice({
     },
     signIn: (state, action) => {
       const { payload } = action;
+      console.log(action);
       state.user = payload.payload.user;
       state.isLogged = true;
       state.status = "success";
