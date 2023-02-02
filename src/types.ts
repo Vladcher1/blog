@@ -26,19 +26,24 @@ export interface ArticlesState {
   articlesCount: number | null;
 }
 
+export interface DataUser {
+  user: UserState;
+}
+
 export interface UserState {
-  bio: null | string[];
+  bio?: null | string[];
   email: string | null;
-  image: string | null;
-  token: string | null;
+  image?: string | null;
+  token?: string | null;
   username: string | null;
+  password?: string; 
 }
 
 export interface CurrentUserState {
   error: string | null;
   isLogged: boolean | null;
   user: UserState | null;
-  status: string;
+  status: string | null;
 }
 
 export interface NewUserData {

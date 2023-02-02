@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "../spinner/spinner";
@@ -9,6 +9,7 @@ import "./article-item-page.scss";
 
 import "../../img/like.svg";
 import { makeId } from "../../utilities";
+import Confirm from "../popconfirm/popconfirm";
 
 export const ArticleItemPage = () => {
   const [article, setArticle] = useState();
@@ -87,7 +88,15 @@ export const ArticleItemPage = () => {
             );
           })}
         </div>
-        <div className="full-page-article__article-info">{description}</div>
+        <div className="full-page-article__article-info">
+          {description}
+          <div className="full-page-article__buttons">
+            <Confirm />
+            <Link to={`/articles/${slug}/edit`} className="edit-button">
+              Edit
+            </Link>
+          </div>
+        </div>
         <div className="article-item__body">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
         </div>

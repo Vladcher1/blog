@@ -37,5 +37,39 @@
   color: rgba(0, 0, 0, 0.5);
   font-size: 12px;
   line-height: 22px;
+  display: flex;
+  justify-content: space-between;
+
   margin-bottom: 25px;
+}
+
+.delete-button {
+  padding: 6px 19px;
+  background-color: transparent;
+  color: #f5222d;
+  border: 1px solid #f5222d;
+  border-radius: 5px;
+  margin-left: 12px;
+  display: inline-block;
+  width: 100px;
+  box-sizing: border-box;
+  height: 40px;
+  text-align: center;
+  vertical-align: top;
+  font-size: 13px;
+}
+.edit-button {
+  padding: 6px 19px;
+  background-color: transparent;
+  color: #52c41a;
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  margin-left: 12px;
+  display: inline-block;
+  width: 100px;
+  box-sizing: border-box;
+  height: 40px;
+  text-align: center;
+  vertical-align: top;
+  font-size: 13px;
 }

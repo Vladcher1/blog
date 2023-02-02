@@ -1,9 +1,10 @@
 import "./submit-button.scss";
 
-export const SubmitButton = ({ button, isValid }: any) => {
+export const SubmitButton = ({ button, isValid, buttonType='submit', styles }: any) => {
   return (
     <input
-      type="submit"
+      style={styles}
+      type={buttonType}
       className="submit-button"
       value={button}
       disabled={!isValid}

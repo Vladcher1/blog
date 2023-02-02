@@ -1,17 +1,13 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./sign-in-page.scss";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import { signInUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { ErrorNotification } from "../errorNotification/errorNotification";
 
 export const SignInPage = () => {
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.user.error);
   const {
     register,
     handleSubmit,
@@ -23,7 +19,7 @@ export const SignInPage = () => {
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
   const onSubmit = (data) => {
-    const { ["email address"]: email, password } = data;
+    const { "email address": email, password } = data;
     dispatch(signInUserSlice({ email, password }));
     reset();
   };

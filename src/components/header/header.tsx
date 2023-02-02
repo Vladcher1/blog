@@ -5,7 +5,6 @@ import { logOut } from "../../user/userSlice";
 
 export const Header = () => {
   const userInfo = useSelector((state) => state.user);
-  console.log(userInfo);
   const dispatch = useDispatch();
   if (!userInfo.isLogged) {
     return (
@@ -28,7 +27,7 @@ export const Header = () => {
       <Link to={``} className="blog-header__logo">
         <h6>Realworld Blog</h6>
       </Link>
-      <Link to="" className="create-article-link ">
+      <Link to="/new-article" className="create-article-link ">
         Create Article
       </Link>
       <div className="blog-header__user">

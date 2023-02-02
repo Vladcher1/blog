@@ -8,14 +8,8 @@ import "./editProfile.scss";
 export const EditProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log(user.user);
   const onSubmit = (data) => {
-    console.log(data);
-    //     const { ["avatar image (url)"]: image, ["email address"]: email, ["new password
-    // "]:password, username } = data;
     const { image, email, password, username } = data;
-
-    console.log(image, email, password, username);
 
     const newImage = image.trim();
     const newEmail = String(email).trim();

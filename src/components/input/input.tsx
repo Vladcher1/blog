@@ -12,18 +12,19 @@ export const Input = ({
   pattern,
   defaultValue,
   textLabel,
+  classNames,
+  styles,
 }: any) => {
   const inputErrorStyle = errors[label] && {
     borderColor: "#F5222D",
   };
 
   return (
-    <label className="label">
+    <label className="label" style={styles}>
       {textLabel}
       <input
-        style={inputErrorStyle}
         defaultValue={defaultValue}
-        className="input"
+        className={"input " + classNames}
         {...register(label, {
           required: {
             value: required,

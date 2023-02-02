@@ -1,10 +1,7 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { CurrentUserState, NewUserData } from "../types";
-
-const API_URL = "https://api.realworld.io/api/";
-// https://blog.kata.academy/api/
+import { CurrentUserState, DataUser, NewUserData, UserState } from "../types";
 
 export const initialState: CurrentUserState = {
   user: null,
@@ -25,19 +22,10 @@ export const updateUser = createAsyncThunk(
     { rejectWithValue, dispatch }
   ) => {
     try {
-      console.log(newEmail, newPassword, newImage, newUsername);
-      const json = JSON.stringify({
-        user: {
-          username: newUsername,
-          email: newEmail,
-          password: newPassword,
-          image: newImage,
-        },
-      });
-      console.log(json);
       const token = localStorage.getItem("userToken");
-      console.log(token, "its a token i need");
-      const { data }: any = await axios.put(
+      const {
+        data: { user },
+      } = await axios.put<DataUser>(
         `https://blog.kata.academy/api/user`,
         {
           user: {
@@ -54,8 +42,8 @@ export const updateUser = createAsyncThunk(
         }
       );
 
-      dispatch(signIn({ payload: data }));
-      return data;
+      dispatch(signIn({ payload: user }));
+      return user;
     } catch (error) {
       if (error.response) {
         // client received an error response (5xx, 4xx)
@@ -86,9 +74,7 @@ export const checkCurrentUser = createAsyncThunk(
           },
         });
 
-        console.log("getting perfon", data);
         dispatch(signIn({ payload: data }));
-        console.log(data);
         return data;
       }
     } catch (error: any) {
@@ -112,7 +98,7 @@ export const signInUserSlice = createAsyncThunk(
   async (user, { rejectWithValue, dispatch }) => {
     try {
       const { password, email }: any = user;
-      const { data } = await axios.post(
+      const { data } = await axios.post<DataUser>(
         `https://blog.kata.academy/api/users/login`,
         {
           user: {
@@ -147,8 +133,11 @@ export const signUpUserSlice = createAsyncThunk(
   "user/signUpUser",
   async (user, { rejectWithValue, dispatch }) => {
     try {
-      const { username, password, email }: any = user;
-      console.log(user, "user");
+      const {
+        username,
+        password,
+        email,
+      }: Pick<UserState, "username" | "password" | "email"> = user;
       const { data } = await axios.post(`https://blog.kata.academy/api/users`, {
         user: {
           username: `${username}`,
@@ -156,7 +145,6 @@ export const signUpUserSlice = createAsyncThunk(
           password: `${password}`,
         },
       });
-      console.log(data);
       dispatch(signUp({ payload: data }));
       return data;
     } catch (error: any) {
@@ -182,14 +170,12 @@ export const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signUp: (state, action) => {
-      console.log(state, "in signUp");
+    signUp: (state) => {
       state.status = "success";
       state.error = null;
     },
     signIn: (state, action) => {
       const { payload } = action;
-      console.log(action);
       state.user = payload.payload.user;
       state.isLogged = true;
       state.status = "success";
@@ -213,14 +199,12 @@ export const UserSlice = createSlice({
       state.error = null;
     },
     [checkCurrentUser.fulfilled]: (state, action) => {
-      console.log(current(state), action);
       state.status = "succeeded";
       state.error = null;
       state.user = action.payload.user;
     },
     [checkCurrentUser.rejected]: (state, action) => {
       state.status = "rejected";
-      console.log(current(state), action);
       state.error = action.payload;
     },
     // .................................................................
@@ -230,14 +214,12 @@ export const UserSlice = createSlice({
       state.error = null;
     },
     [signInUserSlice.fulfilled]: (state, action) => {
-      console.log(current(state), action.payload);
       state.status = "succeeded";
       state.error = null;
       state.user = action.payload.user;
     },
     [signInUserSlice.rejected]: (state, action) => {
       state.status = "rejected";
-      console.log(current(state), action);
       state.error = action.payload;
     },
     //.................................................................
@@ -246,14 +228,12 @@ export const UserSlice = createSlice({
       state.error = null;
     },
     [signUpUserSlice.fulfilled]: (state, action) => {
-      console.log(current(state), action);
       state.status = "succeeded";
       state.error = null;
       state.user = action.payload.user;
     },
     [signUpUserSlice.rejected]: (state, action) => {
       state.status = "rejected";
-      console.log(current(state), action);
       state.error = action.payload;
     },
     //..................................................
@@ -263,14 +243,12 @@ export const UserSlice = createSlice({
       state.error = null;
     },
     [updateUser.fulfilled]: (state, action) => {
-      console.log(current(state), action);
       state.status = "succeeded";
       state.error = null;
       state.user = action.payload.user;
     },
     [updateUser.rejected]: (state, action) => {
       state.status = "rejected";
-      console.log(current(state), action);
       state.error = action.payload;
     },
   },

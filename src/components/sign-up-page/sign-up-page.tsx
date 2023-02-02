@@ -5,14 +5,12 @@ import "./sign-up-page.scss";
 import { useDispatch } from "react-redux";
 import { signUpUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 
 export const SignUpPage = () => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     const { username, email, password, repeatPassword } = data;
-    console.log(data);
     if (password.trim() === repeatPassword.trim()) {
       dispatch(signUpUserSlice({ username, email, password }));
     }
