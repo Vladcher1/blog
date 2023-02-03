@@ -11,7 +11,7 @@ export const Layout = () => {
   return (
     <React.Fragment>
       <Header />
-      <div className="layout-container">
+      <div className="layout-container ">
         {status === "loading" ? <Spinner /> : <Outlet />}
       </div>
     </React.Fragment>

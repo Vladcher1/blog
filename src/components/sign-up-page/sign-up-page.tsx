@@ -28,8 +28,10 @@ export const SignUpPage = () => {
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
   return (
-    <section className="sign-up">
-      <h2 className="sign-up__title">Create new account</h2>
+    <section className="sign-up form-container shadow">
+      <h2 className="sign-up__title form-container__title">
+        Create new account
+      </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="sign-up__username">
           <Input

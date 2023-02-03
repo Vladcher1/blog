@@ -16,7 +16,6 @@ export const EditProfile = () => {
     const newPassword = String(password).trim();
     const newUsername = username.trim();
 
-    console.log(newEmail, email);
     const needToUpdate =
       (newEmail !== user.user.email && newEmail !== "") ||
       (newImage !== user.user.image && newImage !== "") ||
@@ -24,7 +23,6 @@ export const EditProfile = () => {
       (newUsername !== user.user.username && newUsername !== "");
 
     if (needToUpdate) {
-      console.log(newEmail, newImage, newPassword, newUsername);
       dispatch(updateUser({ newEmail, newImage, newPassword, newUsername }));
     }
     reset();
@@ -44,7 +42,7 @@ export const EditProfile = () => {
     /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
   return (
-    <section className="sign-up">
+    <section className="sign-up shadow">
       <h2 className="sign-up__title">Edit profile</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="sign-up__username">

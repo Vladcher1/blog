@@ -25,11 +25,12 @@ export const SignInPage = () => {
   };
 
   return (
-    <section className="sign-in">
-      <h2 className="sign-in__title">Sign In</h2>
+    <section className="sign-in form-container shadow">
+      <h2 className="sign-in__title form-container__title">Sign In</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="sign-in__login">
           <Input
+            textLabel="Email address"
             register={register}
             required
             label="email address"
@@ -41,6 +42,7 @@ export const SignInPage = () => {
         </div>
         <div className="sign-in__password">
           <Input
+            textLabel="Password"
             register={register}
             required
             label="password"

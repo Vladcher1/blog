@@ -1,6 +1,6 @@
 import React from "react";
 import "./article-item.scss";
-import "../../img/like.svg";
+// import "../../img/like.svg";
 import { makeId } from "../../utilities";
 import { Link } from "react-router-dom";
 import { ArticleState } from "../../types";
@@ -37,7 +37,7 @@ export const ArticleItem = ({
   });
 
   return (
-    <article className="article-item">
+    <article className="article-item shadow">
       <header className="article-item__header">
         <Link to={`${slug}`}>
           <h5 className="article-item__title">{title} </h5>

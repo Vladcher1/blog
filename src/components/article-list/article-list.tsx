@@ -17,7 +17,6 @@ export const ArticleList = () => {
   const dispatch = useDispatch();
 
   const onChange = (page: number) => {
-    console.log(page);
     dispatch(fetchArticlesSlice(page));
   };
 
@@ -67,7 +66,6 @@ export const ArticleList = () => {
     );
   });
 
-  console.log(articlesArr, "articlesArr");
   return (
     <div className="article-list-container">
       <section className="article-list">{articlesArr}</section>

@@ -116,7 +116,9 @@ export const deleteArticle = createAsyncThunk(
         },
       }
     );
-    return data;
+    // dispatch(deleteArticle(slug.slug));
+    console.log(data);
+    return slug.slug;
   }
 );
 
@@ -189,6 +191,11 @@ export const ArticlesSlice = createSlice({
       const { payload } = action;
       console.log(state, payload);
     },
+    deleteArticle: (state, action) => {
+      state.articles = state.articles.filter(
+        (article) => article.slug !== action.payload
+      );
+    },
   },
   extraReducers: {
     [fetchArticlesSlice.pending]: (state: any, action: any) => {
@@ -234,10 +241,93 @@ export const ArticlesSlice = createSlice({
     [postArticle.fulfilled]: (state: any, action: any) => {
       console.log("запрос на создание поста успешен");
       state.status = "succeeded";
-      // state.articles = [...action.payload.articles];
-      // state.articlesCount = action.payload.articlesCount;
+      console.log(current(state), action);
+      state.articles = [action.payload.article, ...state.articles];
+      state.articlesCount = state.articlesCount + 1;
     },
     [postArticle.rejected]: (state: any, action: any) => {
+      console.log("запрос на создание поста с ошибкой");
+      console.log(action.error);
+      state.status = "failed";
+      state.error = action.error;
+
+      if (action.error.response) {
+        // Запрос был сделан, и сервер ответил кодом состояния, который
+        // выходит за пределы 2xx
+        console.log(action.error.response.data);
+        console.log(action.error.response.status);
+        console.log(action.error.response.headers);
+      } else if (action.error.request) {
+        // Запрос был сделан, но ответ не получен
+        // `error.request`- это экземпляр XMLHttpRequest в браузере и экземпляр
+        // http.ClientRequest в node.js
+        console.log(action.error.request);
+      } else {
+        // Произошло что-то при настройке запроса, вызвавшее ошибку
+        console.log("Error", action.error.message);
+      }
+      console.log(action.error.config);
+    },
+
+    //.......................................
+
+    [updateArticle.pending]: (state: any, action: any) => {
+      state.status = "loading";
+      state.error = null;
+      console.log("запрос на создание поста отправляется");
+    },
+    [updateArticle.fulfilled]: (state: any, action: any) => {
+      console.log("запрос на создание поста успешен");
+      state.status = "succeeded";
+      console.log(current(state), action.payload);
+      state.articles = state.articles.map((article) => {
+        if (article.slug === action.payload.article.slug) {
+          console.log("подошел");
+          return action.payload.article;
+        }
+        return article;
+      });
+    },
+    [updateArticle.rejected]: (state: any, action: any) => {
+      console.log("запрос на создание поста с ошибкой");
+      console.log(action.error);
+      state.status = "failed";
+      state.error = action.error;
+
+      if (action.error.response) {
+        // Запрос был сделан, и сервер ответил кодом состояния, который
+        // выходит за пределы 2xx
+        console.log(action.error.response.data);
+        console.log(action.error.response.status);
+        console.log(action.error.response.headers);
+      } else if (action.error.request) {
+        // Запрос был сделан, но ответ не получен
+        // `error.request`- это экземпляр XMLHttpRequest в браузере и экземпляр
+        // http.ClientRequest в node.js
+        console.log(action.error.request);
+      } else {
+        // Произошло что-то при настройке запроса, вызвавшее ошибку
+        console.log("Error", action.error.message);
+      }
+      console.log(action.error.config);
+    },
+    //.......................................
+
+    [deleteArticle.pending]: (state: any, action: any) => {
+      state.status = "loading";
+      state.error = null;
+      console.log("запрос на создание поста отправляется");
+    },
+    [deleteArticle.fulfilled]: (state: any, action: any) => {
+      console.log("запрос на создание поста успешен");
+      state.status = "succeeded";
+      console.log(current(state), action.payload);
+      state.articles = state.articles.filter(
+        (article) => article.slug !== action.payload
+      );
+      state.articlesCount = state.articlesCount - 1;
+    },
+    [deleteArticle.rejected]: (state: any, action: any) => {
       console.log("запрос на создание поста с ошибкой");
       console.log(action.error);
       state.status = "failed";

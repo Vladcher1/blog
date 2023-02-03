@@ -7,26 +7,30 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "./article-item-page.scss";
 
-import "../../img/like.svg";
+// import "../../img/unfavorite.svg";
 import { makeId } from "../../utilities";
 import Confirm from "../popconfirm/popconfirm";
 import { FavoriteButton } from "../favoriteButton/favoriteButton";
+import { useSelector } from "react-redux";
 
 export const ArticleItemPage = () => {
   const [article, setArticle] = useState();
   const [status, setStatus] = useState("loading");
-
+  const user = useSelector((state) => state.user.user);
   const { slug } = useParams();
 
   useEffect(() => {
+    const token = localStorage.getItem("userToken");
     const getArticle = async () => {
       const { data } = await axios.get(
         `https://blog.kata.academy/api/articles/${slug}`,
         {
-          headers: { "content-type": "application/json; charset=utf-8" },
+          headers: {
+            "content-type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-
       setArticle(data);
       setStatus("completed");
       return data;
@@ -53,24 +57,17 @@ export const ArticleItemPage = () => {
     favorited,
     createdAt,
   }: any = article.article;
-  console.log(article.article);
   {
     const newId = makeId();
 
     return (
-      <article className="full-page-article">
+      <article className="full-page-article shadow">
         <header className="full-page-article__header">
           <h5 className="full-page-article__title">{title}</h5>
-          {/* <button className="full-page-article__like-btn">
-            <img src="/like.svg" alt="like" />
-            <span className="full-page-article__like-btn-number">
-              {favoritesCount}
-            </span>
-          </button> */}
           <FavoriteButton
+            favorited={favorited}
             favoritesCount={favoritesCount}
             slug={slug}
-            favorited={favorited}
           />
 
           <div className="article-item__nickname-container">
@@ -97,12 +94,14 @@ export const ArticleItemPage = () => {
         </div>
         <div className="full-page-article__article-info">
           {description}
-          <div className="full-page-article__buttons">
-            <Confirm />
-            <Link to={`/articles/${slug}/edit`} className="edit-button">
-              Edit
-            </Link>
-          </div>
+          {author.username === user.username && (
+            <div className="full-page-article__buttons">
+              <Confirm />
+              <Link to={`/articles/${slug}/edit`} className="edit-button">
+                Edit
+              </Link>
+            </div>
+          )}
         </div>
         <div className="article-item__body">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>

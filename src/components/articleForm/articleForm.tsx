@@ -1,4 +1,4 @@
-import { useFieldArray, useForm, Control } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { ArticleState } from "../../types";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
@@ -8,24 +8,60 @@ import {
   postArticle,
   updateArticle,
 } from "../../fetchArticles/fetchArticlesSlice";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { setConstantValue } from "typescript";
+import useSelection from "antd/es/table/hooks/useSelection";
 
-export const ArticleForm = ({ title }: string = "") => {
+export const ArticleForm = ({ title: pageTitle }: string = "") => {
   const dispatch = useDispatch();
+  const [needToNavigate, setNeedToNavigate] = useState(false);
+  const [article, setArticle] = useState({
+    body: "",
+    description: "",
+    tagList: [""],
+    title: "",
+    updatedAt: "",
+    createdAt: "",
+  });
+
+  const { slug } = useParams();
+
+  useEffect(() => {
+    if (pageTitle === "Edit Article") {
+      const getArticle = async () => {
+        const { data } = await axios.get(
+          `https://blog.kata.academy/api/articles/${slug}`,
+          {
+            headers: {
+              "content-type": "application/json; charset=utf-8",
+            },
+          }
+        );
+
+        setArticle(data.article);
+        return data;
+      };
+
+      getArticle();
+    }
+  }, [pageTitle, slug]);
 
   const onSubmit = (data: ArticleState) => {
     const { tagList, description, body, title } = data;
     const tagListArray = tagList
       .map((tag) => tag.value.trim())
       .filter((tag) => tag.trim() !== "");
+
     const descriptionTrimmed = description.trim();
     const bodyTrimmed = body.trim();
     const titleTrimmed = title.trim();
 
-    if (title === "Edit Article") {
+    const needToUpdate =
+      titleTrimmed !== article.title ||
+      bodyTrimmed !== article.body ||
+      descriptionTrimmed !== article.description;
+    if (pageTitle === "Edit Article" && needToUpdate) {
       dispatch(
         updateArticle({
           slug,
@@ -45,38 +81,9 @@ export const ArticleForm = ({ title }: string = "") => {
         })
       );
     }
+    reset();
+    setNeedToNavigate(true);
   };
-
-  const [article, setArticle] = useState({
-    body: "",
-    description: "",
-    tagList: [""],
-    title: "",
-    updatedAt: "",
-    createdAt: "",
-  });
-
-  const { slug } = useParams();
-
-  useEffect(() => {
-    if (title === "Edit Article") {
-      const getArticle = async () => {
-        const { data } = await axios.get(
-          `https://blog.kata.academy/api/articles/${slug}`,
-          {
-            headers: {
-              "content-type": "application/json; charset=utf-8",
-            },
-          }
-        );
-
-        setArticle(data.article);
-        return data;
-      };
-
-      getArticle();
-    }
-  }, [title, slug]);
 
   const {
     register,
@@ -97,17 +104,27 @@ export const ArticleForm = ({ title }: string = "") => {
   });
 
   useEffect(() => {
-    setValue("tagList", tagArr);
-  }, [article.tagList]);
+    if (pageTitle === "Create New Article" || tagArr.length === 0) {
+      setValue("tagList", { value: "" });
+    } else {
+      setValue("tagList", tagArr);
+    }
+  }, [article.tagList, pageTitle]);
 
   const { fields, append, remove } = useFieldArray({
     name: "tagList",
     control,
   });
 
+  if (needToNavigate && pageTitle === "Edit Article") {
+    return <Navigate to={`/articles/${slug}`} />;
+  } else if (needToNavigate && pageTitle === "Create New Article") {
+    return <Navigate to="/articles" />;
+  }
+
   return (
-    <section className="article-form">
-      <h3 className="article-form__title">{title}</h3>
+    <section className="article-form shadow">
+      <h3 className="article-form__title">{pageTitle}</h3>
       <form className="article-form__form" onSubmit={handleSubmit(onSubmit)}>
         <Input
           styles={{ marginBottom: "21px" }}
@@ -118,7 +135,7 @@ export const ArticleForm = ({ title }: string = "") => {
           register={register}
           placeholder="Title"
           inputType="text"
-          defaultValue={article.title}
+          defaultValue={pageTitle === "Create New Article" ? "" : article.title}
           minLength={3}
           maxLength={20}
           errors={errors}
@@ -131,7 +148,9 @@ export const ArticleForm = ({ title }: string = "") => {
           register={register}
           placeholder="Short description"
           inputType="text"
-          defaultValue={article.description}
+          defaultValue={
+            pageTitle === "Create New Article" ? "" : article.description
+          }
           minLength={5}
           maxLength={40}
           errors={errors}
@@ -140,7 +159,10 @@ export const ArticleForm = ({ title }: string = "") => {
           Text
           <textarea
             className="input textarea"
-            defaultValue={article.body}
+            defaultValue={
+              pageTitle === "Create New Article" ? "" : article.body
+            }
+            placeholder="Text"
             rows={6}
             {...register("body", {
               required: {
@@ -158,9 +180,9 @@ export const ArticleForm = ({ title }: string = "") => {
             })}
           />
           <div className="validation-error-container">
-            {errors.text && (
+            {errors.body && (
               <span className="validation-error">
-                {errors["text"]?.message || "Error!"}
+                {errors["body"]?.message || "Error!"}
               </span>
             )}
           </div>
@@ -178,7 +200,6 @@ export const ArticleForm = ({ title }: string = "") => {
                   placeholder="tag"
                   inputType="text"
                   defaultValue={""}
-                  minLength={3}
                   maxLength={20}
                   errors={errors}
                 />
