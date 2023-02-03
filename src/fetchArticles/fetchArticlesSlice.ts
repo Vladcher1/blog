@@ -7,7 +7,7 @@ import { ArticlesState } from "../types";
 const ARTICLES_URL = `https://blog.kata.academy/api/`;
 
 const initialState: ArticlesState = {
-  user: null,
+  // user: null,
   articles: [],
   status: "loading", //'loading', 'succeeded', 'fail'
   error: null,
@@ -17,158 +17,231 @@ const initialState: ArticlesState = {
 
 export const fetchArticlesSlice = createAsyncThunk(
   "articles/fetchArticles",
-  async (page: any = 1, { dispatch }) => {
-    const limit = 5;
-    const offset = page === 1 ? 0 : (page - 1) * 5;
-    const token = localStorage.getItem("userToken");
-    const { data } = await axios.get(
-      `${ARTICLES_URL}articles?limit=${limit}&offset=${offset}`,
-      {
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-          Authorization: `Bearer ${token}`,
-        },
+  async (page: any = 1, { dispatch, rejectWithValue }) => {
+    try {
+      const limit = 5;
+      const offset = page === 1 ? 0 : (page - 1) * 5;
+      const token = localStorage.getItem("userToken");
+      const { data } = await axios.get(
+        `${ARTICLES_URL}articles?limit=${limit}&offset=${offset}`,
+        {
+          headers: {
+            "content-type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(fetchArticles({ payload: data, page }));
+      return data;
+    } catch (error) {
+      if (error.response) {
+        // client received an error response (5xx, 4xx)
+        console.log(error, "client received an error response (5xx, 4xx)");
+        return rejectWithValue(error.response.data.errors);
+      } else if (error.request) {
+        console.log(error, "request never left");
+        return rejectWithValue(error.request);
+        // client never received a response, or request never left
+      } else {
+        // anything else
       }
-    );
-    dispatch(fetchArticles({ payload: data, page }));
-    return data;
+    }
   }
 );
 
 export const postArticle = createAsyncThunk(
   "articles/postArticle",
-  async (article: ArticlesState, { dispatch }) => {
-    const token = localStorage.getItem("userToken");
-    console.log(article);
+  async (article: ArticlesState, { dispatch, rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("userToken");
+      console.log(article);
 
-    const {
-      tagListArray: tagList,
-      titleTrimmed: title,
-      bodyTrimmed: body,
-      descriptionTrimmed: description,
-    } = article;
-    console.log(tagList);
-    const { data } = await axios.post(
-      `${ARTICLES_URL}articles`,
-      {
-        article: {
-          title,
-          description,
-          body,
-          tagList,
+      const {
+        tagListArray: tagList,
+        titleTrimmed: title,
+        bodyTrimmed: body,
+        descriptionTrimmed: description,
+      } = article;
+      console.log(tagList);
+      const { data } = await axios.post(
+        `${ARTICLES_URL}articles`,
+        {
+          article: {
+            title,
+            description,
+            body,
+            tagList,
+          },
         },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(data);
+      return data;
+    } catch (error) {
+      if (error.response) {
+        // client received an error response (5xx, 4xx)
+        console.log(error, "client received an error response (5xx, 4xx)");
+        return rejectWithValue(error.response.data.errors);
+      } else if (error.request) {
+        console.log(error, "request never left");
+        return rejectWithValue(error.request);
+        // client never received a response, or request never left
+      } else {
+        // anything else
       }
-    );
-    console.log(data);
-    return data;
+    }
   }
 );
 
 export const updateArticle = createAsyncThunk(
   "articles/updateArticle",
-  async (article: ArticlesState, { dispatch }) => {
-    const token = localStorage.getItem("userToken");
-    console.log(article);
+  async (article: ArticlesState, { dispatch, rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("userToken");
+      console.log(article);
 
-    const {
-      slug,
-      tagListArray: tagList,
-      titleTrimmed: title,
-      bodyTrimmed: body,
-      descriptionTrimmed: description,
-    } = article;
-    console.log(tagList);
-    const { data } = await axios.put(
-      `${ARTICLES_URL}articles/${slug}`,
-      {
-        article: {
-          title,
-          description,
-          body,
-          tagList,
+      const {
+        slug,
+        tagListArray: tagList,
+        titleTrimmed: title,
+        bodyTrimmed: body,
+        descriptionTrimmed: description,
+      } = article;
+      console.log(tagList);
+      const { data } = await axios.put(
+        `${ARTICLES_URL}articles/${slug}`,
+        {
+          article: {
+            title,
+            description,
+            body,
+            tagList,
+          },
         },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(data);
+      return data;
+    } catch (error) {
+      if (error.response) {
+        // client received an error response (5xx, 4xx)
+        console.log(error, "client received an error response (5xx, 4xx)");
+        return rejectWithValue(error.response.data.errors);
+      } else if (error.request) {
+        console.log(error, "request never left");
+        return rejectWithValue(error.request);
+        // client never received a response, or request never left
+      } else {
+        // anything else
       }
-    );
-    console.log(data);
-    return data;
+    }
   }
 );
 
 export const deleteArticle = createAsyncThunk(
   "articles/updateArticle",
-  async (slug: ArticlesState, { dispatch }) => {
-    const token = localStorage.getItem("userToken");
-    const { data } = await axios.delete(
-      `${ARTICLES_URL}articles/${slug.slug}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+  async (slug: ArticlesState, { dispatch, rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("userToken");
+      const { data } = await axios.delete(
+        `${ARTICLES_URL}articles/${slug.slug}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // dispatch(deleteArticle(slug.slug));
+      console.log(data);
+      return slug.slug;
+    } catch (error) {
+      if (error.response) {
+        // client received an error response (5xx, 4xx)
+        console.log(error, "client received an error response (5xx, 4xx)");
+        return rejectWithValue(error.response.data.errors);
+      } else if (error.request) {
+        console.log(error, "request never left");
+        return rejectWithValue(error.request);
+        // client never received a response, or request never left
+      } else {
+        // anything else
       }
-    );
-    // dispatch(deleteArticle(slug.slug));
-    console.log(data);
-    return slug.slug;
+    }
   }
 );
 
 export const favoriteArticle = createAsyncThunk(
   "articles/favoriteArticle",
-  async (slug: ArticlesState, { dispatch }) => {
-    console.log("favorite", slug);
-    const token = localStorage.getItem("userToken");
-    console.log(token);
-    const { data } = await axios.post(
-      `${ARTICLES_URL}articles/${slug}/favorite`,
-      {
-        //   article: {
-        //     favorited: true,
-        //   },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log(data);
-    // dispatch(setFavorite({ payload: data }));
+  async (slug: ArticlesState, { dispatch, rejectWithValue }) => {
+    try {
+      console.log("favorite", slug);
+      const token = localStorage.getItem("userToken");
+      console.log(token);
+      const { data } = await axios.post(
+        `${ARTICLES_URL}articles/${slug}/favorite`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    return data;
+      return data;
+    } catch (error) {
+      if (error.response) {
+        // client received an error response (5xx, 4xx)
+        console.log(error, "client received an error response (5xx, 4xx)");
+        return rejectWithValue(error.response.data.errors);
+      } else if (error.request) {
+        console.log(error, "request never left");
+        return rejectWithValue(error.request);
+        // client never received a response, or request never left
+      } else {
+        // anything else
+      }
+    }
   }
 );
-//  https://blog.kata.academy/api/articles/rgvdfbar-l5fah2/favorite
 
 export const unfavoriteArticle = createAsyncThunk(
   "articles/unfavoriteArticle",
-  async (slug: ArticlesState, { dispatch }) => {
-    console.log("unfavorite", slug);
-    const token = localStorage.getItem("userToken");
-    console.log(token);
+  async (slug: ArticlesState, { dispatch, rejectWithValue }) => {
+    try {
+      console.log("unfavorite", slug);
+      const token = localStorage.getItem("userToken");
+      console.log(token);
 
-    const { data } = await axios.delete(
-      `${ARTICLES_URL}articles/${slug}/favorite`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const { data } = await axios.delete(
+        `${ARTICLES_URL}articles/${slug}/favorite`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      if (error.response) {
+        // client received an error response (5xx, 4xx)
+        console.log(error, "client received an error response (5xx, 4xx)");
+        return rejectWithValue(error.response.data.errors);
+      } else if (error.request) {
+        console.log(error, "request never left");
+        return rejectWithValue(error.request);
+        // client never received a response, or request never left
+      } else {
+        // anything else
       }
-    );
-    console.log(data);
-    // dispatch(setFavorite(data));
-    // dispatch(setFavorite({ payload: data }));
-
-    return data;
+    }
   }
 );
 
@@ -183,19 +256,19 @@ export const ArticlesSlice = createSlice({
       state.articlesCount = payload.payload.articlesCount;
       state.currentPage = page;
     },
-    setStatus: (state, action) => {
-      const { payload } = action;
-      state.status = payload;
-    },
-    setFavorite: (state, action) => {
-      const { payload } = action;
-      console.log(state, payload);
-    },
-    deleteArticle: (state, action) => {
-      state.articles = state.articles.filter(
-        (article) => article.slug !== action.payload
-      );
-    },
+    // setStatus: (state, action) => {
+    //   const { payload } = action;
+    //   state.status = payload;
+    // },
+    // setFavorite: (state, action) => {
+    //   const { payload } = action;
+    //   console.log(state, payload);
+    // },
+    // deleteArticle: (state, action) => {
+    //   state.articles = state.articles.filter(
+    //     (article) => article.slug !== action.payload
+    //   );
+    // },
   },
   extraReducers: {
     [fetchArticlesSlice.pending]: (state: any, action: any) => {

@@ -6,8 +6,6 @@ import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "./article-item-page.scss";
-
-// import "../../img/unfavorite.svg";
 import { makeId } from "../../utilities";
 import Confirm from "../popconfirm/popconfirm";
 import { FavoriteButton } from "../favoriteButton/favoriteButton";

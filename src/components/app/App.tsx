@@ -1,6 +1,6 @@
 import { ArticleList } from "../article-list/article-list";
 import "./app.scss";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ArticleItemPage } from "../article-item-page/article-item-page";
 import { NotFoundPage } from "../not-found-page/not-found-page";
 import { Layout } from "../layout/layout";
@@ -12,9 +12,6 @@ import { EditProfile } from "../editProfile/editProfile";
 import { useSelector } from "react-redux";
 import { ErrorNotification } from "../errorNotification/errorNotification";
 import { ArticleForm } from "../articleForm/articleForm";
-import { Input } from "../input/input";
-import { useForm } from "react-hook-form";
-import axios from "axios";
 
 const App = () => {
   const [network, setNetwork] = useState(true);
@@ -28,63 +25,12 @@ const App = () => {
       setNetwork(true);
     };
   });
-  const error = useSelector((state) => state.user.error);
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: { errors, isValid },
-  // } = useForm({ mode: "onBlur" });
-
-  // const createArticleComponent = (
-  //   <ArticleForm title="Create new article">
-  //     <Input
-  //       className="article-form__input"
-  //       textLabel="Title"
-  //       required={true}
-  //       label="title"
-  //       register={register}
-  //       placeholder="Title"
-  //       inputType="text"
-  //       defaultValue={""}
-  //       minLength={3}
-  //       maxLength={20}
-  //       errors={errors}
-  //     />
-  //     <Input
-  //       className="article-form__input"
-  //       textLabel="Description"
-  //       required={true}
-  //       label="description"
-  //       register={register}
-  //       placeholder="Description"
-  //       inputType="text"
-  //       defaultValue={""}
-  //       minLength={3}
-  //       maxLength={50}
-  //       errors={errors}
-  //     />
-  //     <Input
-  //       className="article-form__input"
-  //       textLabel="Text"
-  //       required={true}
-  //       label="text"
-  //       register={register}
-  //       placeholder="Text"
-  //       inputType="text"
-  //       defaultValue={""}
-  //       minLength={3}
-  //       maxLength={2000}
-  //       errors={errors}
-  //     />
-  //   </ArticleForm>
-  // );
+  // const error = useSelector((state) => state.user.error);
 
   return (
     <div className="app">
       {!network && <NetworkError />}
-      {error && <ErrorNotification error={error} />}
+      {/* {error && <ErrorNotification error={error} />} */}
       <Routes>
         <Route path="/articles" element={<Layout />}>
           <Route index element={<ArticleList />} />

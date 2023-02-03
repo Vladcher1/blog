@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import "./sign-in-page.scss";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signInUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
+import { ErrorNotification } from "../errorNotification/errorNotification";
 
 export const SignInPage = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,8 @@ export const SignInPage = () => {
     reset,
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
-
+  const error = useSelector((state) => state.user.error);
+  console.log(error);
   const EMAIL_REGEXP =
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
@@ -39,6 +41,13 @@ export const SignInPage = () => {
             placeholder={"Email address"}
             inputType={"text"}
           />
+          {errorObject?.password && (
+            <div className="validation-error-container">
+              <span className="validation-error">
+                {`Password ${errorObject.password}`}
+              </span>
+            </div>
+          )}
         </div>
         <div className="sign-in__password">
           <Input
@@ -62,6 +71,7 @@ export const SignInPage = () => {
         </span>
       </form>
       <SubmitButton formName="sign-in" button="Login" isValid={isValid} />
+      {/* {error && <ErrorNotification error={error} />} */}
     </section>
   );
 };

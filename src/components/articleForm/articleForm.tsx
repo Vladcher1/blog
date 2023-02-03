@@ -11,7 +11,6 @@ import {
 import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import useSelection from "antd/es/table/hooks/useSelection";
 
 export const ArticleForm = ({ title: pageTitle }: string = "") => {
   const dispatch = useDispatch();
@@ -227,7 +226,7 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
           </button>
         </div>
       </form>
-        <SubmitButton isValid={isValid} formName="article-form" />
+      <SubmitButton isValid={isValid} formName="article-form" />
     </section>
   );
 };

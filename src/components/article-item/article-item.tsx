@@ -1,6 +1,5 @@
 import React from "react";
 import "./article-item.scss";
-// import "../../img/like.svg";
 import { makeId } from "../../utilities";
 import { Link } from "react-router-dom";
 import { ArticleState } from "../../types";
