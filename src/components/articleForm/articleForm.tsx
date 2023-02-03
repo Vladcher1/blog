@@ -125,7 +125,10 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
   return (
     <section className="article-form shadow">
       <h3 className="article-form__title">{pageTitle}</h3>
-      <form className="article-form__form" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        id="article-form"
+        className="article-form__form"
+        onSubmit={handleSubmit(onSubmit)}>
         <Input
           styles={{ marginBottom: "21px" }}
           classNames="article-form__input"
@@ -223,8 +226,8 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
             Add tag
           </button>
         </div>
-        <SubmitButton isValid={isValid} />
       </form>
+        <SubmitButton isValid={isValid} formName="article-form" />
     </section>
   );
 };

@@ -7,6 +7,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: 21px;
 }
 
 .article-form__title {
@@ -57,7 +58,6 @@
 .delete-button {
   color: #f5222d;
   border-color: #f5222d;
-  
 }
 .add-button {
   color: #1890ff;

@@ -42,8 +42,8 @@ export const EditProfile = () => {
     /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
   return (
-    <section className="sign-up shadow">
-      <h2 className="sign-up__title">Edit profile</h2>
+    <section className="sign-up shadow form-container">
+      <h2 className=" form-container__title ">Edit profile</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="sign-up__username">
           <Input

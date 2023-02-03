@@ -27,7 +27,7 @@ export const SignInPage = () => {
   return (
     <section className="sign-in form-container shadow">
       <h2 className="sign-in__title form-container__title">Sign In</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form id="sign-in" onSubmit={handleSubmit(onSubmit)}>
         <div className="sign-in__login">
           <Input
             textLabel="Email address"
@@ -53,7 +53,6 @@ export const SignInPage = () => {
             inputType={"text"}
           />
         </div>
-        <SubmitButton button="Login" isValid={isValid} />
 
         <span className="sign-in__sign-up-link">
           Don’t have an account?{" "}
@@ -62,6 +61,7 @@ export const SignInPage = () => {
           </Link>
         </span>
       </form>
+      <SubmitButton formName="sign-in" button="Login" isValid={isValid} />
     </section>
   );
 };

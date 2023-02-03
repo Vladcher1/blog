@@ -32,9 +32,10 @@ export const SignUpPage = () => {
       <h2 className="sign-up__title form-container__title">
         Create new account
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form id="sign-up" onSubmit={handleSubmit(onSubmit)}>
         <div className="sign-up__username">
           <Input
+            textLabel="Username"
             label="username"
             register={register}
             required
@@ -47,7 +48,7 @@ export const SignUpPage = () => {
         </div>
         <div className="sign-up__email">
           <Input
-            textLabel="email address"
+            textLabel="Email address"
             register={register}
             required
             label="email"
@@ -61,6 +62,7 @@ export const SignUpPage = () => {
         </div>
         <div className="sign-up__password">
           <Input
+            textLabel="Password"
             register={register}
             required
             label="password"
@@ -73,7 +75,7 @@ export const SignUpPage = () => {
         </div>
         <div className="sign-up__repeat-password">
           <Input
-            textLabel="repeat password"
+            textLabel="Repeat password"
             label="repeatPassword"
             placeholder={"repeat password"}
             inputType={"text"}
@@ -96,7 +98,7 @@ export const SignUpPage = () => {
             I agree to the processing of my personal information
           </label>
         </div>
-        <SubmitButton button="Create" isValid={isValid} />
+        <SubmitButton formName="sign-up" button="Create" isValid={isValid} />
         <span className="sign-up__sign-in-link">
           Already have an account?{" "}
           <Link to={"/sign-in"} className="sign-up-link">
