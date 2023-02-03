@@ -10,6 +10,7 @@ import "./article-item-page.scss";
 import "../../img/like.svg";
 import { makeId } from "../../utilities";
 import Confirm from "../popconfirm/popconfirm";
+import { FavoriteButton } from "../favoriteButton/favoriteButton";
 
 export const ArticleItemPage = () => {
   const [article, setArticle] = useState();
@@ -49,9 +50,10 @@ export const ArticleItemPage = () => {
     tagList,
     favoritesCount,
     author,
+    favorited,
     createdAt,
   }: any = article.article;
-
+  console.log(article.article);
   {
     const newId = makeId();
 
@@ -59,12 +61,17 @@ export const ArticleItemPage = () => {
       <article className="full-page-article">
         <header className="full-page-article__header">
           <h5 className="full-page-article__title">{title}</h5>
-          <button className="full-page-article__like-btn">
+          {/* <button className="full-page-article__like-btn">
             <img src="/like.svg" alt="like" />
             <span className="full-page-article__like-btn-number">
               {favoritesCount}
             </span>
-          </button>
+          </button> */}
+          <FavoriteButton
+            favoritesCount={favoritesCount}
+            slug={slug}
+            favorited={favorited}
+          />
 
           <div className="article-item__nickname-container">
             <div className="article-item__nickname">{author.username}</div>

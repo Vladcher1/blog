@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import axios from "axios";
@@ -20,10 +20,14 @@ export const fetchArticlesSlice = createAsyncThunk(
   async (page: any = 1, { dispatch }) => {
     const limit = 5;
     const offset = page === 1 ? 0 : (page - 1) * 5;
+    const token = localStorage.getItem("userToken");
     const { data } = await axios.get(
       `${ARTICLES_URL}articles?limit=${limit}&offset=${offset}`,
       {
-        headers: { "content-type": "application/json; charset=utf-8" },
+        headers: {
+          "content-type": "application/json; charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     dispatch(fetchArticles({ payload: data, page }));
@@ -112,7 +116,56 @@ export const deleteArticle = createAsyncThunk(
         },
       }
     );
+    return data;
+  }
+);
+
+export const favoriteArticle = createAsyncThunk(
+  "articles/favoriteArticle",
+  async (slug: ArticlesState, { dispatch }) => {
+    console.log("favorite", slug);
+    const token = localStorage.getItem("userToken");
+    console.log(token);
+    const { data } = await axios.post(
+      `${ARTICLES_URL}articles/${slug}/favorite`,
+      {
+        //   article: {
+        //     favorited: true,
+        //   },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     console.log(data);
+    // dispatch(setFavorite({ payload: data }));
+
+    return data;
+  }
+);
+//  https://blog.kata.academy/api/articles/rgvdfbar-l5fah2/favorite
+
+export const unfavoriteArticle = createAsyncThunk(
+  "articles/unfavoriteArticle",
+  async (slug: ArticlesState, { dispatch }) => {
+    console.log("unfavorite", slug);
+    const token = localStorage.getItem("userToken");
+    console.log(token);
+
+    const { data } = await axios.delete(
+      `${ARTICLES_URL}articles/${slug}/favorite`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(data);
+    // dispatch(setFavorite(data));
+    // dispatch(setFavorite({ payload: data }));
+
     return data;
   }
 );
@@ -132,6 +185,10 @@ export const ArticlesSlice = createSlice({
       const { payload } = action;
       state.status = payload;
     },
+    setFavorite: (state, action) => {
+      const { payload } = action;
+      console.log(state, payload);
+    },
   },
   extraReducers: {
     [fetchArticlesSlice.pending]: (state: any, action: any) => {
@@ -139,6 +196,7 @@ export const ArticlesSlice = createSlice({
       state.error = null;
     },
     [fetchArticlesSlice.fulfilled]: (state: any, action: any) => {
+      console.log(action);
       state.status = "succeeded";
       state.articles = [...action.payload.articles];
       state.articlesCount = action.payload.articlesCount;
@@ -181,6 +239,105 @@ export const ArticlesSlice = createSlice({
     },
     [postArticle.rejected]: (state: any, action: any) => {
       console.log("запрос на создание поста с ошибкой");
+      console.log(action.error);
+      state.status = "failed";
+      state.error = action.error;
+
+      if (action.error.response) {
+        // Запрос был сделан, и сервер ответил кодом состояния, который
+        // выходит за пределы 2xx
+        console.log(action.error.response.data);
+        console.log(action.error.response.status);
+        console.log(action.error.response.headers);
+      } else if (action.error.request) {
+        // Запрос был сделан, но ответ не получен
+        // `error.request`- это экземпляр XMLHttpRequest в браузере и экземпляр
+        // http.ClientRequest в node.js
+        console.log(action.error.request);
+      } else {
+        // Произошло что-то при настройке запроса, вызвавшее ошибку
+        console.log("Error", action.error.message);
+      }
+      console.log(action.error.config);
+    },
+    //.......................................
+
+    [favoriteArticle.pending]: (state: any, action: any) => {
+      // state.status = "loading";
+      // state.error = null;
+      console.log("лайк отправляется");
+    },
+    [favoriteArticle.fulfilled]: (state: any, action: any) => {
+      console.log("лайк успешен", action.payload, current(state));
+      console.log(
+        "лайк успешен",
+        action.payload.article.slug,
+        current(state.articles)
+      );
+
+      state.status = "succeeded";
+      // state.articles = [...action.payload.articles];
+      state.articles = state.articles.map((article) => {
+        console.log(current(article));
+        if (article.slug === action.payload.article.slug) {
+          return action.payload.article;
+        }
+        return article;
+      });
+      // state.articlesCount = action.payload.articlesCount;
+    },
+    [favoriteArticle.rejected]: (state: any, action: any) => {
+      console.log("лайк с ошибкой");
+      console.log(action.error);
+      state.status = "failed";
+      state.error = action.error;
+
+      if (action.error.response) {
+        // Запрос был сделан, и сервер ответил кодом состояния, который
+        // выходит за пределы 2xx
+        console.log(action.error.response.data);
+        console.log(action.error.response.status);
+        console.log(action.error.response.headers);
+      } else if (action.error.request) {
+        // Запрос был сделан, но ответ не получен
+        // `error.request`- это экземпляр XMLHttpRequest в браузере и экземпляр
+        // http.ClientRequest в node.js
+        console.log(action.error.request);
+      } else {
+        // Произошло что-то при настройке запроса, вызвавшее ошибку
+        console.log("Error", action.error.message);
+      }
+      console.log(action.error.config);
+    },
+
+    //.......................................
+
+    [unfavoriteArticle.pending]: (state: any, action: any) => {
+      // state.status = "loading";
+      // state.error = null;
+      console.log("лайк отправляется");
+    },
+    [unfavoriteArticle.fulfilled]: (state: any, action: any) => {
+      console.log("лайк успешен", action.payload, current(state));
+      console.log(
+        "лайк успешен",
+        action.payload.article.slug,
+        current(state.articles)
+      );
+
+      state.status = "succeeded";
+      // state.articles = [...action.payload.articles];
+      state.articles = state.articles.map((article) => {
+        console.log(current(article));
+        if (article.slug === action.payload.article.slug) {
+          return action.payload.article;
+        }
+        return article;
+      });
+      // state.articlesCount = action.payload.articlesCount;
+    },
+    [unfavoriteArticle.rejected]: (state: any, action: any) => {
+      console.log("лайк с ошибкой");
       console.log(action.error);
       state.status = "failed";
       state.error = action.error;

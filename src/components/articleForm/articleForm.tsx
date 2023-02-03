@@ -11,12 +11,12 @@ import {
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { setConstantValue } from "typescript";
 
 export const ArticleForm = ({ title }: string = "") => {
   const dispatch = useDispatch();
 
   const onSubmit = (data: ArticleState) => {
-    console.log(data);
     const { tagList, description, body, title } = data;
     const tagListArray = tagList
       .map((tag) => tag.value.trim())
@@ -26,7 +26,6 @@ export const ArticleForm = ({ title }: string = "") => {
     const titleTrimmed = title.trim();
 
     if (title === "Edit Article") {
-      console.log("updatim article");
       dispatch(
         updateArticle({
           slug,
@@ -71,8 +70,6 @@ export const ArticleForm = ({ title }: string = "") => {
           }
         );
 
-        console.log(data.article, "data i need");
-
         setArticle(data.article);
         return data;
       };
@@ -87,12 +84,21 @@ export const ArticleForm = ({ title }: string = "") => {
     reset,
     formState: { errors, isValid },
     control,
+    setValue,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
       tagList: [{ value: "" }],
     },
   });
+
+  const tagArr = article.tagList.map((tag) => {
+    return { value: tag };
+  });
+
+  useEffect(() => {
+    setValue("tagList", tagArr);
+  }, [article.tagList]);
 
   const { fields, append, remove } = useFieldArray({
     name: "tagList",
@@ -171,7 +177,7 @@ export const ArticleForm = ({ title }: string = "") => {
                   register={register}
                   placeholder="tag"
                   inputType="text"
-                  defaultValue={``}
+                  defaultValue={""}
                   minLength={3}
                   maxLength={20}
                   errors={errors}

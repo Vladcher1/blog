@@ -46,6 +46,7 @@ export const ArticleList = () => {
       updatedAt,
       favoritesCount,
       author,
+      favorited,
     } = article;
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
@@ -61,10 +62,12 @@ export const ArticleList = () => {
         tagList={tagList}
         createdAt={updatedAt}
         favoritesCount={favoritesCount}
+        favorited={favorited}
       />
     );
   });
 
+  console.log(articlesArr, "articlesArr");
   return (
     <div className="article-list-container">
       <section className="article-list">{articlesArr}</section>

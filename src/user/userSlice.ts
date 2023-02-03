@@ -66,6 +66,7 @@ export const updateUser = createAsyncThunk(
 export const checkCurrentUser = createAsyncThunk(
   "user/checkCurrentUser",
   async (token, { rejectWithValue, dispatch }) => {
+    console.log(token)
     try {
       if (token !== undefined) {
         const { data } = await axios.get(`https://blog.kata.academy/api/user`, {

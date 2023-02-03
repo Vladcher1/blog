@@ -5,6 +5,7 @@ import { makeId } from "../../utilities";
 import { Link } from "react-router-dom";
 import { ArticleState } from "../../types";
 import { format } from "date-fns";
+import { FavoriteButton } from "../favoriteButton/favoriteButton";
 
 export const ArticleItem = ({
   title,
@@ -14,6 +15,7 @@ export const ArticleItem = ({
   favoritesCount,
   slug,
   author,
+  favorited,
 }: Pick<
   ArticleState,
   | "title"
@@ -40,12 +42,11 @@ export const ArticleItem = ({
         <Link to={`${slug}`}>
           <h5 className="article-item__title">{title} </h5>
         </Link>
-        <button className="article-item__like-btn">
-          <img src="/like.svg" alt="like" />
-          <span className="article-item__like-btn-number">
-            {favoritesCount}
-          </span>
-        </button>
+        <FavoriteButton
+          favorited={favorited}
+          favoritesCount={favoritesCount}
+          slug={slug}
+        />
         <div className="article-item__nickname-container">
           <div className="article-item__nickname">{author.username}</div>
           <span className="article-item__date">
