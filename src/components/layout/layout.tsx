@@ -5,7 +5,7 @@ import "./layout.scss";
 import Spinner from "../spinner/spinner";
 import { useSelector } from "react-redux";
 
-export const Layout = () => {
+export const Layout: React.FC = () => {
   const status = useSelector((state: any) => state.user.status);
 
   return (

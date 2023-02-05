@@ -11,7 +11,7 @@ import Confirm from "../popconfirm/popconfirm";
 import { FavoriteButton } from "../favoriteButton/favoriteButton";
 import { useSelector } from "react-redux";
 
-export const ArticleItemPage = () => {
+export const ArticleItemPage: React.FC = () => {
   const [article, setArticle]: any = useState();
   const [status, setStatus]: any = useState("loading");
   const user: any = useSelector((state: any) => state.user.user);

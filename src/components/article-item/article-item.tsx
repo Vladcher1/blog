@@ -6,7 +6,7 @@ import { ArticleState } from "../../types";
 import { format } from "date-fns";
 import { FavoriteButton } from "../favoriteButton/favoriteButton";
 
-export const ArticleItem = ({
+export const ArticleItem: React.FC<ArticleState> = ({
   title,
   tagList,
   createdAt,

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logOut } from "../../user/userSlice";
 
-export const Header = () => {
+export const Header: React.FC = () => {
   const userInfo = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   if (!userInfo.isLogged) {

@@ -9,7 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ErrorNotification } from "../errorNotification/errorNotification";
 
-export const SignUpPage = () => {
+export const SignUpPage: React.FC = () => {
   const dispatch = useDispatch();
   const [isError, setIsError]: any = useState(false);
   const [error, setError]: any = useState({});
@@ -18,13 +18,16 @@ export const SignUpPage = () => {
     try {
       setIsError(false);
 
-      const { data } = await axios.post(`https://blog.kata.academy/api/users`, {
-        user: {
-          username,
-          email,
-          password,
-        },
-      });
+      const { data } = await axios.post(
+        `https://blog.kata.academy/apis/users`,
+        {
+          user: {
+            username,
+            email,
+            password,
+          },
+        }
+      );
       dispatch(signUp({ payload: data }));
       return data;
     } catch (error: any) {
@@ -97,7 +100,7 @@ export const SignUpPage = () => {
             minLength={3}
             maxLength={20}
             errors={errors}
-            pattern={EMAIL_REGEXP}
+            pattern={String(EMAIL_REGEXP)}
           />
           {error.email && (
             <span className="validation-error">{`Email ${error.email}`}</span>

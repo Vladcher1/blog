@@ -7,7 +7,7 @@ import { signInUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
 import { Alert } from "antd";
 
-export const SignInPage = () => {
+export const SignInPage: React.FC = () => {
   const dispatch = useDispatch();
   const {
     register,
@@ -15,7 +15,7 @@ export const SignInPage = () => {
     reset,
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
-  const error = useSelector((state:any) => state.user.error);
+  const error = useSelector((state: any) => state.user.error);
   const status = useSelector((state: any) => state.user.status);
 
   const EMAIL_REGEXP =
@@ -38,7 +38,7 @@ export const SignInPage = () => {
             required
             label="email address"
             errors={errors}
-            pattern={EMAIL_REGEXP}
+            pattern={String(EMAIL_REGEXP)}
             placeholder={"Email address"}
             inputType={"text"}
           />

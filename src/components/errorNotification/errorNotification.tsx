@@ -1,9 +1,15 @@
 import React from "react";
 import { Alert } from "antd";
 
-export const ErrorNotification: any = ({ error }: any) => {
+export interface ErrorNotificationProps {
+  error: { status: number; message: string };
+}
+
+export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
+  error,
+}: ErrorNotificationProps) => {
   // const errorText = Object.keys(error).concat(Object.values(error)).join(" ");
-  const errorText: any = error.message;
+  const errorText = error.message;
   return (
     <Alert
       style={{ marginBottom: "10px", marginTop: "10px" }}

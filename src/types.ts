@@ -8,7 +8,7 @@ export interface ArticleState {
   slug: string;
   tagList: string[];
   title: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 export interface AuthorState {

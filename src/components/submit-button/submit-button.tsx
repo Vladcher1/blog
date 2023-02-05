@@ -1,12 +1,20 @@
 import "./submit-button.scss";
 
-export const SubmitButton = ({
+export interface SubmitButtonProps {
+  button?: string;
+  isValid?: boolean;
+  buttonType?: string;
+  styles?: any;
+  formName?: string;
+}
+
+export const SubmitButton: React.FC<SubmitButtonProps> = ({
   button,
   isValid,
   buttonType = "submit",
   styles,
   formName,
-}: any) => {
+}: SubmitButtonProps) => {
   return (
     <input
       form={formName}

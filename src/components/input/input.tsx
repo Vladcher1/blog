@@ -1,7 +1,22 @@
-
 import "./input.scss";
 
-export const Input = ({
+export interface InputProps {
+  label: string;
+  register: any;
+  required?: boolean;
+  maxLength?: number;
+  placeholder?: string;
+  minLength?: number;
+  inputType: string;
+  errors?: any;
+  pattern?: string;
+  defaultValue?: string;
+  textLabel: string;
+  classNames?: string;
+  styles?: any;
+}
+
+export const Input: React.FC<InputProps> = ({
   label,
   register,
   required,
@@ -15,7 +30,7 @@ export const Input = ({
   textLabel,
   classNames,
   styles,
-}: any) => {
+}: InputProps) => {
   // const inputErrorStyle = errors[label] && {
   //   borderColor: "#F5222D",
   // };

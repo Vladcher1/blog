@@ -8,7 +8,7 @@ import { makeId, cutInfo } from "../../utilities";
 import { fetchArticlesSlice } from "../../fetchArticles/fetchArticlesSlice";
 import Spinner from "../spinner/spinner";
 
-export const ArticleList = () => {
+export const ArticleList: React.FC = () => {
   const articles: ArticlesState = useSelector(
     (state: any) => state.fetchArticles
   );

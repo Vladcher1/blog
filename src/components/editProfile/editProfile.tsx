@@ -6,7 +6,7 @@ import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./editProfile.scss";
 
-export const EditProfile = () => {
+export const EditProfile: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const error = useSelector((state: any) => state.user.error);
@@ -74,7 +74,7 @@ export const EditProfile = () => {
             // minLength={3}
             // maxLength={20}
             errors={errors}
-            pattern={EMAIL_REGEXP}
+            pattern={String(EMAIL_REGEXP)}
           />
         </div>
         <div className="sign-up__password">
@@ -102,7 +102,7 @@ export const EditProfile = () => {
             maxLength={Infinity}
             register={register}
             errors={errors}
-            pattern={URL_REGEXP}
+            pattern={String(URL_REGEXP)}
           />
         </div>
         <SubmitButton button="Save" isValid={isValid} />

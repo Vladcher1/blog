@@ -5,7 +5,17 @@ import {
 } from "../../fetchArticles/fetchArticlesSlice";
 import "./favoriteButton.scss";
 
-export const FavoriteButton = ({ favoritesCount, slug, favorited }: any) => {
+export interface FavoriteButtonProps {
+  favoritesCount: number;
+  slug?: string;
+  favorited: boolean;
+}
+
+export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
+  favoritesCount,
+  slug,
+  favorited,
+}: FavoriteButtonProps) => {
   const dispatch = useDispatch();
 
   return (

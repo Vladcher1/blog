@@ -12,7 +12,13 @@ import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const ArticleForm = ({ title: pageTitle }: any = "") => {
+export interface ArticleFormProps {
+  title: string;
+}
+
+export const ArticleForm: React.FC<ArticleFormProps> = ({
+  title: pageTitle = "",
+}: ArticleFormProps) => {
   const dispatch = useDispatch();
   const [needToNavigate, setNeedToNavigate]: any = useState(false);
   const [article, setArticle]: any = useState({
