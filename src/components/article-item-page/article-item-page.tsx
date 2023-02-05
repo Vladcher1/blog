@@ -12,9 +12,9 @@ import { FavoriteButton } from "../favoriteButton/favoriteButton";
 import { useSelector } from "react-redux";
 
 export const ArticleItemPage = () => {
-  const [article, setArticle] = useState();
-  const [status, setStatus] = useState("loading");
-  const user = useSelector((state) => state.user.user);
+  const [article, setArticle]: any = useState();
+  const [status, setStatus]: any = useState("loading");
+  const user = useSelector((state: any) => state.user.user);
   const { slug } = useParams();
 
   useEffect(() => {
