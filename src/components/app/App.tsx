@@ -12,7 +12,7 @@ import { EditProfile } from "../editProfile/editProfile";
 import { useSelector } from "react-redux";
 import { ArticleForm } from "../articleForm/articleForm";
 
-const App:React.FC = () => {
+const App: React.FC = () => {
   const [network, setNetwork] = useState(true);
 
   const isLogged = useSelector((state: any) => state.user.isLogged);
@@ -29,7 +29,6 @@ const App:React.FC = () => {
   return (
     <div className="app">
       {!network && <NetworkError />}
-      {/* {error && <ErrorNotification error={error} />} */}
       <Routes>
         <Route path="/articles" element={<Layout />}>
           <Route index element={<ArticleList />} />

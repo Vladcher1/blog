@@ -16,9 +16,11 @@ export interface ArticleFormProps {
   title: string;
 }
 
+export type onSubmitType = (data: ArticleState) => void;
+
 export const ArticleForm: React.FC<ArticleFormProps> = ({
   title: pageTitle = "",
-}: ArticleFormProps) => {
+}) => {
   const dispatch = useDispatch();
   const [needToNavigate, setNeedToNavigate]: any = useState(false);
   const [article, setArticle]: any = useState({
@@ -52,8 +54,7 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
     }
   }, [pageTitle, slug]);
 
-  const onSubmit: any = (data: ArticleState) => {
-    const { tagList, description, body, title } = data;
+  const onSubmit: onSubmitType = ({ tagList, description, body, title }) => {
     let tagListArr = tagList;
     if (!Array.isArray(tagList)) {
       tagListArr = [tagList];

@@ -37,7 +37,7 @@ export interface UserState {
   image?: string | null;
   token?: string | null;
   username: string | null;
-  password?: string;
+  password?: string | null;
 }
 
 export interface CurrentUserState {

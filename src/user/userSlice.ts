@@ -89,7 +89,7 @@ export const signInUserSlice: any = createAsyncThunk(
         }
       );
 
-      dispatch(signIn({ payload: data }));
+      // dispatch(signIn({ payload: data }));
       localStorage.setItem("userToken", `${data.user.token}`);
       return data;
     } catch (error: any) {
@@ -115,13 +115,13 @@ export const UserSlice: any = createSlice({
       state.status = "succeeded";
       state.error = null;
     },
-    signIn: (state, action) => {
-      const { payload } = action;
-      state.user = payload.payload.user;
-      state.isLogged = true;
-      state.status = "succeeded";
-      state.error = null;
-    },
+    // signIn: (state, action) => {
+    //   const { payload } = action;
+    //   state.user = payload.payload.user;
+    //   state.isLogged = true;
+    //   state.status = "succeeded";
+    //   state.error = null;
+    // },
     logOut: (state, action) => {
       state.user = null;
       state.isLogged = false;
@@ -152,13 +152,18 @@ export const UserSlice: any = createSlice({
     // .................................................................
 
     [signInUserSlice.pending]: (state) => {
-      // state.status = "loading";
+      state.status = "loading";
       state.error = null;
     },
     [signInUserSlice.fulfilled]: (state, action) => {
       state.status = "succeeded";
       state.error = null;
+      console.log(action);
       state.user = action.payload.user;
+      // state.user = action.payload.user;
+      state.isLogged = true;
+      //   state.status = "succeeded";
+      //   state.error = null;
     },
     [signInUserSlice.rejected]: (state, action) => {
       state.status = "rejected";

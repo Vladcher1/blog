@@ -14,7 +14,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
   buttonType = "submit",
   styles,
   formName,
-}: SubmitButtonProps) => {
+}) => {
   return (
     <input
       form={formName}

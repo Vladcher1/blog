@@ -46,10 +46,8 @@ export const SignUpPage: React.FC = () => {
     }
   };
 
-  const onSubmit = async (data: any) => {
-    const { username, email, password, repeatPassword } = data;
+  const onSubmit = ({ username, email, password, repeatPassword }: any) => {
     if (password.trim() === repeatPassword.trim()) {
-      // dispatch(signUpUserSlice({ username, email, password }));
       signUpFetch(username, email, password);
       reset();
     }

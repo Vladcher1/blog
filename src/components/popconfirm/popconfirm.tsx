@@ -1,16 +1,8 @@
 import React, { useState } from "react";
-import { message, Popconfirm } from "antd";
+import { Popconfirm } from "antd";
 import { useDispatch } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import { deleteArticle } from "../../fetchArticles/fetchArticlesSlice";
-
-// const confirm = (e: React.MouseEvent<HTMLElement>) => {
-//   message.success("Click on Yes");
-// };
-
-const cancel = (e: any) => {
-  message.error("Click on No");
-};
 
 const Confirm: React.FC = () => {
   const [needToNavigate, setNeedToNavigate] = useState(false);
@@ -28,7 +20,6 @@ const Confirm: React.FC = () => {
         dispatch(deleteArticle(slug));
         setNeedToNavigate(true);
       }}
-      onCancel={cancel}
       okText="Yes"
       cancelText="No">
       <a href="/#" className="article-form__button delete-button">

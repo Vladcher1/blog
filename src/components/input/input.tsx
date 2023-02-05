@@ -30,7 +30,7 @@ export const Input: React.FC<InputProps> = ({
   textLabel,
   classNames,
   styles,
-}: InputProps) => {
+}) => {
   // const inputErrorStyle = errors[label] && {
   //   borderColor: "#F5222D",
   // };

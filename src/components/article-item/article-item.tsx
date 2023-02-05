@@ -15,18 +15,7 @@ export const ArticleItem: React.FC<ArticleState> = ({
   slug,
   author,
   favorited,
-}: Pick<
-  ArticleState,
-  | "title"
-  | "description"
-  | "tagList"
-  | "createdAt"
-  | "body"
-  | "favoritesCount"
-  | "slug"
-  | "author"
-  | "favorited"
->) => {
+}) => {
   const newId = makeId();
   const tagSpans = tagList.map((tag: any) => {
     return (

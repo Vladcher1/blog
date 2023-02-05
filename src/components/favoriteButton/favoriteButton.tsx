@@ -15,7 +15,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   favoritesCount,
   slug,
   favorited,
-}: FavoriteButtonProps) => {
+}) => {
   const dispatch = useDispatch();
 
   return (

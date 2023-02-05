@@ -4,9 +4,10 @@ import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import { useDispatch, useSelector } from "react-redux";
 import { signInUserSlice } from "../../user/userSlice";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Alert } from "antd";
 
+// export type onSubmit
 export const SignInPage: React.FC = () => {
   const dispatch = useDispatch();
   const {
@@ -21,7 +22,7 @@ export const SignInPage: React.FC = () => {
   const EMAIL_REGEXP =
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
     const { "email address": email, password } = data;
     dispatch(signInUserSlice({ email, password }));
     reset();

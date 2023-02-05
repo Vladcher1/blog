@@ -1,23 +1,29 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../user/userSlice";
 import { ErrorNotification } from "../errorNotification/errorNotification";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./editProfile.scss";
+import { UserState } from "../../types";
+
+export type onSubmitEditType = (data: UserState) => void;
 
 export const EditProfile: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const error = useSelector((state: any) => state.user.error);
 
-  const onSubmit = (data: any) => {
-    const { image, email, password, username } = data;
-
-    const newImage = image.trim();
+  const onSubmit: SubmitHandler<FieldValues> = ({
+    image,
+    email,
+    password,
+    username,
+  }) => {
+    const newImage = image?.trim();
     const newEmail = String(email).trim();
     const newPassword = String(password).trim();
-    const newUsername = username.trim();
+    const newUsername = username?.trim();
 
     const needToUpdate =
       newEmail !== user.user.email ||
