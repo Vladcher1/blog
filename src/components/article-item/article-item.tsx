@@ -25,6 +25,7 @@ export const ArticleItem = ({
   | "favoritesCount"
   | "slug"
   | "author"
+  | "favorited"
 >) => {
   const newId = makeId();
   const tagSpans = tagList.map((tag: any) => {
