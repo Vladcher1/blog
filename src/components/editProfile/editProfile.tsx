@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../user/userSlice";
@@ -9,10 +8,10 @@ import "./editProfile.scss";
 
 export const EditProfile = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const error = useSelector((state) => state.user.error);
+  const user = useSelector((state: any) => state.user);
+  const error = useSelector((state: any) => state.user.error);
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     const { image, email, password, username } = data;
 
     const newImage = image.trim();
@@ -43,7 +42,7 @@ export const EditProfile = () => {
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
   const URL_REGEXP =
-    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/; //eslint-disable-line
 
   return (
     <section className="sign-up shadow form-container">

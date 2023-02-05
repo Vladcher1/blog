@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+
 import "./input.scss";
 
 export const Input = ({
@@ -16,11 +16,11 @@ export const Input = ({
   classNames,
   styles,
 }: any) => {
-  const inputErrorStyle = errors[label] && {
-    borderColor: "#F5222D",
-  };
+  // const inputErrorStyle = errors[label] && {
+  //   borderColor: "#F5222D",
+  // };
 
-  const error = useSelector((state) => state.user.error);
+  // const error = useSelector((state) => state.user.error);
 
   return (
     <label className="label" style={styles}>

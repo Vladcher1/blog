@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import { deleteArticle } from "../../fetchArticles/fetchArticlesSlice";
 
-const confirm = (e: React.MouseEvent<HTMLElement>) => {
-  message.success("Click on Yes");
-};
+// const confirm = (e: React.MouseEvent<HTMLElement>) => {
+//   message.success("Click on Yes");
+// };
 
-const cancel = (e: React.MouseEvent<HTMLElement>) => {
+const cancel = (e: any) => {
   message.error("Click on No");
 };
 
@@ -30,9 +30,8 @@ const Confirm: React.FC = () => {
       }}
       onCancel={cancel}
       okText="Yes"
-      cancelText="No"
-    >
-      <a href="#" className="article-form__button delete-button">
+      cancelText="No">
+      <a href="/#" className="article-form__button delete-button">
         Delete
       </a>
     </Popconfirm>
