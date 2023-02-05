@@ -14,9 +14,8 @@ import { useSelector } from "react-redux";
 export const ArticleItemPage: React.FC = () => {
   const [article, setArticle]: any = useState();
   const [status, setStatus]: any = useState("loading");
-  const user: any = useSelector((state: any) => state.user.user);
+  const user: any = useSelector((state: any) => state.user);
   const { slug } = useParams();
-
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     const getArticle = async () => {
@@ -57,7 +56,6 @@ export const ArticleItemPage: React.FC = () => {
   }: any = article.article;
   {
     const newId = makeId();
-
     return (
       <article className="full-page-article shadow">
         <header className="full-page-article__header">
