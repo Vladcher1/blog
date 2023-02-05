@@ -12,10 +12,10 @@ import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const ArticleForm = ({ title: pageTitle }: string = "") => {
+export const ArticleForm = ({ title: pageTitle }: any = "") => {
   const dispatch = useDispatch();
-  const [needToNavigate, setNeedToNavigate] = useState(false);
-  const [article, setArticle] = useState({
+  const [needToNavigate, setNeedToNavigate]: any = useState(false);
+  const [article, setArticle]: any = useState({
     body: "",
     description: "",
     tagList: [""],
@@ -46,15 +46,15 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
     }
   }, [pageTitle, slug]);
 
-  const onSubmit = (data: ArticleState) => {
+  const onSubmit: any = (data: ArticleState) => {
     const { tagList, description, body, title } = data;
     let tagListArr = tagList;
     if (!Array.isArray(tagList)) {
       tagListArr = [tagList];
     }
     const tagListArray = tagListArr
-      .map((tag) => tag.value.trim())
-      .filter((tag) => tag.trim() !== "");
+      .map((tag: any) => tag.value.trim())
+      .filter((tag: any) => tag.trim() !== "");
 
     const descriptionTrimmed = description.trim();
     const bodyTrimmed = body.trim();
@@ -95,14 +95,14 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
     formState: { errors, isValid },
     control,
     setValue,
-  } = useForm({
+  }: any = useForm({
     mode: "onBlur",
     defaultValues: {
       tagList: [{ value: "" }],
     },
   });
 
-  const tagArr = article.tagList.map((tag) => {
+  const tagArr = article.tagList.map((tag: any) => {
     return { value: tag };
   });
 
@@ -112,9 +112,9 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
     } else {
       setValue("tagList", tagArr);
     }
-  }, [article.tagList, pageTitle]);
+  }, [article.tagList, pageTitle, setValue, tagArr]);
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove }: any = useFieldArray({
     name: "tagList",
     control,
   });
@@ -131,8 +131,7 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
       <form
         id="article-form"
         className="article-form__form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+        onSubmit={handleSubmit(onSubmit)}>
         <Input
           styles={{ marginBottom: "21px" }}
           classNames="article-form__input"
@@ -197,7 +196,7 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
         <div className="article-form__tags-container">
           <div className="article-form__tags">
             <span className="article-form__tag-title">Tag</span>
-            {fields.map((field, index) => (
+            {fields.map((field: any, index: any) => (
               <div className="article-form__tag" key={field.id}>
                 <Input
                   textLabel=""
@@ -215,8 +214,7 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
                   type="button"
                   onClick={() => {
                     remove(index);
-                  }}
-                >
+                  }}>
                   Delete
                 </button>
               </div>
@@ -227,8 +225,7 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
             type="button"
             onClick={() => {
               append("new tag");
-            }}
-          >
+            }}>
             Add tag
           </button>
         </div>

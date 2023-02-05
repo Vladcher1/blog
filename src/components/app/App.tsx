@@ -10,13 +10,12 @@ import { SignInPage } from "../sign-in-page/sign-in-gape";
 import { SignUpPage } from "../sign-up-page/sign-up-page";
 import { EditProfile } from "../editProfile/editProfile";
 import { useSelector } from "react-redux";
-import { ErrorNotification } from "../errorNotification/errorNotification";
 import { ArticleForm } from "../articleForm/articleForm";
 
 const App = () => {
   const [network, setNetwork] = useState(true);
 
-  const isLogged = useSelector((state) => state.user.isLogged);
+  const isLogged = useSelector((state: any) => state.user.isLogged);
   useEffect(() => {
     window.onoffline = () => {
       setNetwork(false);
@@ -48,8 +47,7 @@ const App = () => {
               ) : (
                 <ArticleForm title="Edit Article" />
               )
-            }
-          ></Route>
+            }></Route>
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>
