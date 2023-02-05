@@ -18,7 +18,6 @@ export const SignInPage: React.FC = () => {
   } = useForm({ mode: "onBlur" });
   const error = useSelector((state: any) => state.user.error);
   const status = useSelector((state: any) => state.user.status);
-
   const EMAIL_REGEXP =
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
@@ -73,9 +72,6 @@ export const SignInPage: React.FC = () => {
         </span>
       </form>
       <SubmitButton formName="sign-in" button="Login" isValid={isValid} />
-      {/* {error && error.message !== "jwt malformed" && (
-        <ErrorNotification error={error} />
-      )} */}
       {status === "rejected" && error["email or password"] && (
         <Alert
           style={{ marginBottom: "10px", marginTop: "10px" }}
