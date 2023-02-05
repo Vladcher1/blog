@@ -5,7 +5,7 @@ import {
 } from "../../fetchArticles/fetchArticlesSlice";
 import "./favoriteButton.scss";
 
-export const FavoriteButton = ({ favoritesCount, slug, favorited }) => {
+export const FavoriteButton = ({ favoritesCount, slug, favorited }: any) => {
   const dispatch = useDispatch();
 
   return (
@@ -17,8 +17,7 @@ export const FavoriteButton = ({ favoritesCount, slug, favorited }) => {
         } else {
           dispatch(favoriteArticle(slug));
         }
-      }}
-    >
+      }}>
       <img src={favorited ? "/favorite.svg" : "/unfavorite.svg"} alt="like" />
       <span className="article-item__like-btn-number">{favoritesCount}</span>
     </button>

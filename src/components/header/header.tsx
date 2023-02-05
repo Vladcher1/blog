@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { logOut } from "../../user/userSlice";
 
 export const Header = () => {
-  const userInfo = useSelector((state) => state.user);
+  const userInfo = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   if (!userInfo.isLogged) {
     return (
@@ -50,8 +50,7 @@ export const Header = () => {
         to="/sign-in"
         onClick={() => {
           dispatch(logOut());
-        }}
-      >
+        }}>
         Log Out
       </Link>
     </header>

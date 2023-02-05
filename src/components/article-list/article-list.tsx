@@ -12,7 +12,9 @@ export const ArticleList = () => {
   const articles: ArticlesState = useSelector(
     (state: any) => state.fetchArticles
   );
-  const page = useSelector((state: any) => state.fetchArticles.currentPage);
+  const page: any = useSelector(
+    (state: any) => state.fetchArticles.currentPage
+  );
 
   const dispatch = useDispatch();
 
@@ -35,7 +37,7 @@ export const ArticleList = () => {
     );
   }
   const newId = makeId();
-  const articlesArr = articles.articles.map((article: ArticleState) => {
+  const articlesArr: any = articles.articles.map((article: ArticleState) => {
     const {
       body,
       slug,
@@ -46,7 +48,7 @@ export const ArticleList = () => {
       favoritesCount,
       author,
       favorited,
-    } = article;
+    }: any = article;
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
 
@@ -72,7 +74,7 @@ export const ArticleList = () => {
       <Pagination
         className="pagination"
         current={page}
-        total={articles.articlesCount}
+        total={articles.articlesCount || undefined}
         pageSize={5}
         onChange={onChange}
       />

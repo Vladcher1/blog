@@ -6,7 +6,7 @@ import Spinner from "../spinner/spinner";
 import { useSelector } from "react-redux";
 
 export const Layout = () => {
-  const status = useSelector((state) => state.user.status);
+  const status = useSelector((state: any) => state.user.status);
 
   return (
     <React.Fragment>
