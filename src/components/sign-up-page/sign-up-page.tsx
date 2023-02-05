@@ -3,18 +3,53 @@ import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./sign-up-page.scss";
 import { useDispatch } from "react-redux";
-import { signUpUserSlice } from "../../user/userSlice";
+import { signUp } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useState } from "react";
+import { ErrorNotification } from "../errorNotification/errorNotification";
 
 export const SignUpPage = () => {
   const dispatch = useDispatch();
+  const [isError, setIsError]: any = useState(false);
+  const [error, setError]: any = useState({});
 
-  const onSubmit = (data) => {
+  const signUpFetch: any = async (username: any, email: any, password: any) => {
+    try {
+      setIsError(false);
+
+      const { data } = await axios.post(`https://blog.kata.academy/api/users`, {
+        user: {
+          username,
+          email,
+          password,
+        },
+      });
+      dispatch(signUp({ payload: data }));
+      return data;
+    } catch (error: any) {
+      setIsError(true);
+      if (error.response) {
+        setError(error.response.data.errors);
+        throw new Error("client received an error response (5xx, 4xx)");
+      } else if (error.request) {
+        setError(error.data.errors);
+        throw new Error(
+          "client never received a response, or request never left"
+        );
+      } else {
+        throw new Error("unexpected error, ", error);
+      }
+    }
+  };
+
+  const onSubmit = async (data: any) => {
     const { username, email, password, repeatPassword } = data;
     if (password.trim() === repeatPassword.trim()) {
-      dispatch(signUpUserSlice({ username, email, password }));
+      // dispatch(signUpUserSlice({ username, email, password }));
+      signUpFetch(username, email, password);
+      reset();
     }
-    reset();
   };
 
   const {
@@ -45,6 +80,11 @@ export const SignUpPage = () => {
             maxLength={20}
             errors={errors}
           />
+          <div className="validation-error-container">
+            {error.username && (
+              <span className="validation-error">{`Email ${error.username}`}</span>
+            )}
+          </div>
         </div>
         <div className="sign-up__email">
           <Input
@@ -59,6 +99,9 @@ export const SignUpPage = () => {
             errors={errors}
             pattern={EMAIL_REGEXP}
           />
+          {error.email && (
+            <span className="validation-error">{`Email ${error.email}`}</span>
+          )}
         </div>
         <div className="sign-up__password">
           <Input
@@ -106,6 +149,9 @@ export const SignUpPage = () => {
           </Link>
         </span>
       </form>
+      {isError && !error.email && !error.username && (
+        <ErrorNotification error={error} />
+      )}
     </section>
   );
 };

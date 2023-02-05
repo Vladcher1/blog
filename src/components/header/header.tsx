@@ -50,7 +50,8 @@ export const Header = () => {
         to="/sign-in"
         onClick={() => {
           dispatch(logOut());
-        }}>
+        }}
+      >
         Log Out
       </Link>
     </header>

@@ -12,13 +12,13 @@ export const FavoriteButton = ({ favoritesCount, slug, favorited }) => {
     <button
       className="article-item__like-btn"
       onClick={() => {
-        console.log(favorited);
         if (favorited) {
           dispatch(unfavoriteArticle(slug));
         } else {
           dispatch(favoriteArticle(slug));
         }
-      }}>
+      }}
+    >
       <img src={favorited ? "/favorite.svg" : "/unfavorite.svg"} alt="like" />
       <span className="article-item__like-btn-number">{favoritesCount}</span>
     </button>

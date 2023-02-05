@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { CurrentUserState, DataUser, NewUserData, UserState } from "../types";
+import { CurrentUserState, DataUser } from "../types";
 
 export const initialState: CurrentUserState = {
   user: null,
@@ -10,7 +10,7 @@ export const initialState: CurrentUserState = {
   error: null,
 };
 
-export const updateUser = createAsyncThunk(
+export const updateUser: any = createAsyncThunk(
   "user/updateUser",
   async (
     {
@@ -18,7 +18,7 @@ export const updateUser = createAsyncThunk(
       newPassword,
       newImage = "https://api.realworld.io/images/smiley-cyrus.jpeg",
       newUsername,
-    }: NewUserData,
+    }: any,
     { rejectWithValue, dispatch }
   ) => {
     try {
@@ -42,59 +42,39 @@ export const updateUser = createAsyncThunk(
         }
       );
 
-      dispatch(signIn({ payload: user }));
       return user;
-    } catch (error) {
-      if (error.response) {
-        // client received an error response (5xx, 4xx)
-        console.log(
-          error.response,
-          "client received an error response (5xx, 4xx)"
-        );
-        return rejectWithValue(error.response.data.errors);
-      } else if (error.request) {
-        console.log(error, "request never left");
-        return rejectWithValue(error.request);
-        // client never received a response, or request never left
-      } else {
-        // anything else
-      }
-    }
-  }
-);
-
-export const checkCurrentUser = createAsyncThunk(
-  "user/checkCurrentUser",
-  async (token, { rejectWithValue, dispatch }) => {
-    console.log(token)
-    try {
-      if (token !== undefined) {
-        const { data } = await axios.get(`https://blog.kata.academy/api/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        dispatch(signIn({ payload: data }));
-        return data;
-      }
     } catch (error: any) {
       if (error.response) {
-        // client received an error response (5xx, 4xx)
-        console.log(error, "client received an error response (5xx, 4xx)");
+        // dispatch(setError(error.response.data.errors));
         return rejectWithValue(error.response.data.errors);
+        // throw new Error("client received an error response (5xx, 4xx)");
       } else if (error.request) {
-        console.log(error, "request never left");
-        return rejectWithValue(error.request);
-        // client never received a response, or request never left
+        // dispatch(setError(error.data.errors));
+        return rejectWithValue(error.data.errors);
       } else {
-        // anything else
+        throw new Error("unexpected error, ", error);
       }
     }
   }
 );
 
-export const signInUserSlice = createAsyncThunk(
+export const checkCurrentUser: any = createAsyncThunk(
+  "user/checkCurrentUser",
+  async (token, { dispatch }) => {
+    if (token === undefined || token === null) {
+      dispatch(signIn({ payload: null }));
+    }
+    const { data } = await axios.get(`https://blog.kata.academy/api/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(signIn({ payload: data }));
+    return data;
+  }
+);
+
+export const signInUserSlice: any = createAsyncThunk(
   "user/signInUser",
   async (user, { rejectWithValue, dispatch }) => {
     try {
@@ -108,89 +88,49 @@ export const signInUserSlice = createAsyncThunk(
           },
         }
       );
+
       dispatch(signIn({ payload: data }));
       localStorage.setItem("userToken", `${data.user.token}`);
       return data;
     } catch (error: any) {
       if (error.response) {
-        // client received an error response (5xx, 4xx)
-        console.log(
-          error.response.data.errors,
-          "client received an error response (5xx, 4xx)"
-        );
+        // dispatch(setError(error.response.data.errors));
         return rejectWithValue(error.response.data.errors);
+        // throw new Error("client received an error response (5xx, 4xx)");
       } else if (error.request) {
-        console.log(error, "request never left");
-        return rejectWithValue(error.request);
-        // client never received a response, or request never left
+        // dispatch(setError(error.data.errors));
+        return rejectWithValue(error.data.errors);
       } else {
-        // anything else
+        throw new Error("unexpected error, ", error);
       }
     }
   }
 );
 
-export const signUpUserSlice = createAsyncThunk(
-  "user/signUpUser",
-  async (user, { rejectWithValue, dispatch }) => {
-    try {
-      const {
-        username,
-        password,
-        email,
-      }: Pick<UserState, "username" | "password" | "email"> = user;
-      const { data } = await axios.post(`https://blog.kata.academy/api/users`, {
-        user: {
-          username: `${username}`,
-          email: `${email}`,
-          password: `${password}`,
-        },
-      });
-      dispatch(signUp({ payload: data }));
-      return data;
-    } catch (error: any) {
-      if (error.response) {
-        // client received an error response (5xx, 4xx)
-        console.log(
-          error.response.data.errors,
-          "client received an error response (5xx, 4xx)"
-        );
-        return rejectWithValue(error.response.data.errors);
-      } else if (error.request) {
-        console.log(error, "request never left");
-        return rejectWithValue(error.request);
-        // client never received a response, or request never left
-      } else {
-        // anything else
-      }
-    }
-  }
-);
-
-export const UserSlice = createSlice({
+export const UserSlice: any = createSlice({
   name: "user",
   initialState,
   reducers: {
     signUp: (state) => {
-      state.status = "success";
+      state.status = "succeeded";
       state.error = null;
     },
     signIn: (state, action) => {
       const { payload } = action;
       state.user = payload.payload.user;
       state.isLogged = true;
-      state.status = "success";
+      state.status = "succeeded";
       state.error = null;
     },
     logOut: (state, action) => {
       state.user = null;
       state.isLogged = false;
-      state.status = "success";
+      state.status = "succeeded";
       state.error = null;
       localStorage.removeItem("userToken");
     },
     setError: (state, action) => {
-      state.status = "fail";
+      state.status = "rejected";
       state.error = action.payload;
     },
   },
@@ -205,13 +145,14 @@ export const UserSlice = createSlice({
       state.user = action.payload.user;
     },
     [checkCurrentUser.rejected]: (state, action) => {
-      state.status = "rejected";
+      state.status = "succeeded";
       state.error = action.payload;
+      state.user = null;
     },
     // .................................................................
 
     [signInUserSlice.pending]: (state) => {
-      state.status = "loading";
+      // state.status = "loading";
       state.error = null;
     },
     [signInUserSlice.fulfilled]: (state, action) => {
@@ -223,21 +164,8 @@ export const UserSlice = createSlice({
       state.status = "rejected";
       state.error = action.payload;
     },
-    //.................................................................
-    [signUpUserSlice.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [signUpUserSlice.fulfilled]: (state, action) => {
-      state.status = "succeeded";
-      state.error = null;
-      state.user = action.payload.user;
-    },
-    [signUpUserSlice.rejected]: (state, action) => {
-      state.status = "rejected";
-      state.error = action.payload;
-    },
-    //..................................................
+
+    // ..................................................
 
     [updateUser.pending]: (state) => {
       state.status = "loading";
@@ -246,7 +174,7 @@ export const UserSlice = createSlice({
     [updateUser.fulfilled]: (state, action) => {
       state.status = "succeeded";
       state.error = null;
-      state.user = action.payload.user;
+      state.user = action.payload;
     },
     [updateUser.rejected]: (state, action) => {
       state.status = "rejected";

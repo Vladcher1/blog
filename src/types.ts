@@ -19,6 +19,7 @@ export interface AuthorState {
 }
 
 export interface ArticlesState {
+  slug: any;
   articles: any[];
   status: string;
   error: any;
@@ -36,7 +37,7 @@ export interface UserState {
   image?: string | null;
   token?: string | null;
   username: string | null;
-  password?: string; 
+  password?: string;
 }
 
 export interface CurrentUserState {

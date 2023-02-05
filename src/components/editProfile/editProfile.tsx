@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../user/userSlice";
+import { ErrorNotification } from "../errorNotification/errorNotification";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./editProfile.scss";
@@ -8,6 +10,8 @@ import "./editProfile.scss";
 export const EditProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const error = useSelector((state) => state.user.error);
+
   const onSubmit = (data) => {
     const { image, email, password, username } = data;
 
@@ -17,10 +21,10 @@ export const EditProfile = () => {
     const newUsername = username.trim();
 
     const needToUpdate =
-      (newEmail !== user.user.email && newEmail !== "") ||
-      (newImage !== user.user.image && newImage !== "") ||
-      (newPassword !== user.user.password && newPassword !== "") ||
-      (newUsername !== user.user.username && newUsername !== "");
+      newEmail !== user.user.email ||
+      newImage !== user.user.image ||
+      newPassword !== user.user.password ||
+      newUsername !== user.user.username;
 
     if (needToUpdate) {
       dispatch(updateUser({ newEmail, newImage, newPassword, newUsername }));
@@ -48,7 +52,7 @@ export const EditProfile = () => {
         <div className="sign-up__username">
           <Input
             textLabel="Username"
-            required={false}
+            required={true}
             label="username"
             register={register}
             placeholder="some-username"
@@ -61,15 +65,15 @@ export const EditProfile = () => {
         </div>
         <div className="sign-up__email">
           <Input
-            required={false}
+            required={true}
             register={register}
             defaultValue={user.user.email}
             textLabel="Email address"
             label="email"
             placeholder={"email address"}
             inputType={"text"}
-            minLength={3}
-            maxLength={20}
+            // minLength={3}
+            // maxLength={20}
             errors={errors}
             pattern={EMAIL_REGEXP}
           />
@@ -89,7 +93,7 @@ export const EditProfile = () => {
         </div>
         <div className="form edit-profile__image">
           <Input
-            required={false}
+            required={true}
             textLabel="Avatar image (url)"
             label="image"
             placeholder={"avatar image"}
@@ -104,6 +108,7 @@ export const EditProfile = () => {
         </div>
         <SubmitButton button="Save" isValid={isValid} />
       </form>
+      {error && <ErrorNotification error={error} />}
     </section>
   );
 };

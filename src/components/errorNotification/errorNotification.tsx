@@ -1,8 +1,9 @@
 import React from "react";
 import { Alert } from "antd";
 
-export const ErrorNotification: React.FC = ({ error }) => {
-  const errorText = Object.keys(error).concat(Object.values(error)).join(" ");
+export const ErrorNotification: any = ({ error }: any) => {
+  // const errorText = Object.keys(error).concat(Object.values(error)).join(" ");
+  const errorText: any = error.message;
   return (
     <Alert
       style={{ marginBottom: "10px", marginTop: "10px" }}

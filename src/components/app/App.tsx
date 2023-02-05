@@ -48,7 +48,8 @@ const App = () => {
               ) : (
                 <ArticleForm title="Edit Article" />
               )
-            }></Route>
+            }
+          ></Route>
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>

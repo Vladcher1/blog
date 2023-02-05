@@ -5,7 +5,7 @@ import { SubmitButton } from "../submit-button/submit-button";
 import { useDispatch, useSelector } from "react-redux";
 import { signInUserSlice } from "../../user/userSlice";
 import { useForm } from "react-hook-form";
-import { ErrorNotification } from "../errorNotification/errorNotification";
+import { Alert } from "antd";
 
 export const SignInPage = () => {
   const dispatch = useDispatch();
@@ -15,12 +15,13 @@ export const SignInPage = () => {
     reset,
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
-  const error = useSelector((state) => state.user.error);
-  console.log(error);
+  const error = useSelector((state:any) => state.user.error);
+  const status = useSelector((state: any) => state.user.status);
+
   const EMAIL_REGEXP =
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     const { "email address": email, password } = data;
     dispatch(signInUserSlice({ email, password }));
     reset();
@@ -41,13 +42,13 @@ export const SignInPage = () => {
             placeholder={"Email address"}
             inputType={"text"}
           />
-          {errorObject?.password && (
+          {/* {errorObject?.password && (
             <div className="validation-error-container">
               <span className="validation-error">
                 {`Password ${errorObject.password}`}
               </span>
             </div>
-          )}
+          )} */}
         </div>
         <div className="sign-in__password">
           <Input
@@ -71,7 +72,24 @@ export const SignInPage = () => {
         </span>
       </form>
       <SubmitButton formName="sign-in" button="Login" isValid={isValid} />
-      {/* {error && <ErrorNotification error={error} />} */}
+      {/* {error && error.message !== "jwt malformed" && (
+        <ErrorNotification error={error} />
+      )} */}
+      {status === "rejected" && error["email or password"] && (
+        <Alert
+          style={{ marginBottom: "10px", marginTop: "10px" }}
+          message={`Email or password ${error["email or password"]}`}
+          type="error"
+        />
+      )}
+      {status === "rejected" && !error["email or password"] && (
+        <Alert
+          style={{ marginBottom: "10px", marginTop: "10px" }}
+          message={error.message}
+          type="error"
+        />
+      )}
     </section>
   );
 };
+// const m = `Email or password ${error["email or password"]}`;

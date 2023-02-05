@@ -48,7 +48,11 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
 
   const onSubmit = (data: ArticleState) => {
     const { tagList, description, body, title } = data;
-    const tagListArray = tagList
+    let tagListArr = tagList;
+    if (!Array.isArray(tagList)) {
+      tagListArr = [tagList];
+    }
+    const tagListArray = tagListArr
       .map((tag) => tag.value.trim())
       .filter((tag) => tag.trim() !== "");
 
@@ -127,7 +131,8 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
       <form
         id="article-form"
         className="article-form__form"
-        onSubmit={handleSubmit(onSubmit)}>
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Input
           styles={{ marginBottom: "21px" }}
           classNames="article-form__input"
@@ -210,7 +215,8 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
                   type="button"
                   onClick={() => {
                     remove(index);
-                  }}>
+                  }}
+                >
                   Delete
                 </button>
               </div>
@@ -221,7 +227,8 @@ export const ArticleForm = ({ title: pageTitle }: string = "") => {
             type="button"
             onClick={() => {
               append("new tag");
-            }}>
+            }}
+          >
             Add tag
           </button>
         </div>
