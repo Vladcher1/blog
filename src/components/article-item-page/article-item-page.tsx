@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 export const ArticleItemPage = () => {
   const [article, setArticle]: any = useState();
   const [status, setStatus]: any = useState("loading");
-  const user = useSelector((state: any) => state.user.user);
+  const user: any = useSelector((state: any) => state.user.user);
   const { slug } = useParams();
 
   useEffect(() => {
