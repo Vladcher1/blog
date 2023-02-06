@@ -5,7 +5,7 @@ import { CurrentUserState, DataUser } from "../types";
 
 export const initialState: CurrentUserState = {
   user: null,
-  isLogged: null,
+  isLogged: false,
   status: "loading", //'loading', 'succeeded', 'fail'
   error: null,
 };
