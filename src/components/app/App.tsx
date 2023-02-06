@@ -47,8 +47,6 @@ const App: React.FC = () => {
                 <ArticleForm title="Edit Article" />
               )
             }></Route>
-
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/*" element={<Layout />}>
           <Route
@@ -77,6 +75,9 @@ const App: React.FC = () => {
           />
         </Route>
         <Route path="/" element={<Navigate to="/articles" />} />
+        <Route path="*" element={<Layout />}>
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Routes>
     </div>
   );
