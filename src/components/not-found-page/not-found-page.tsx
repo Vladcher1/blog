@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./notFoundPage.scss";
+import "../../img/Beach-Vacation.png";
 export const NotFoundPage: React.FC = () => {
   return (
     <div className="not-found-page__container">
@@ -8,7 +9,7 @@ export const NotFoundPage: React.FC = () => {
       <h1 className="not-found-page__main-title">Page not found</h1>
       <img
         className="not-found-page__image"
-        src="Beach-Vacation.png"
+        src="/Beach-Vacation.png"
         alt="dog is on holiday"
       />
       <p className="not-found-page__text">

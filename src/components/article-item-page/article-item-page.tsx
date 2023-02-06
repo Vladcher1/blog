@@ -56,6 +56,7 @@ export const ArticleItemPage: React.FC = () => {
   }: any = article.article;
   {
     const newId = makeId();
+    console.log(author.username, user.user.username);
     return (
       <article className="full-page-article shadow">
         <header className="full-page-article__header">
@@ -90,7 +91,7 @@ export const ArticleItemPage: React.FC = () => {
         </div>
         <div className="full-page-article__article-info">
           {description}
-          {author.username === user.username && (
+          {author.username === user.user.username && (
             <div className="full-page-article__buttons">
               <Confirm />
               <Link to={`/articles/${slug}/edit`} className="edit-button">
