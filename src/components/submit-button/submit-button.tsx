@@ -20,7 +20,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
       form={formName}
       style={styles}
       type={buttonType}
-      className="submit-button"
+      className="submit-button "
       value={button}
       disabled={!isValid}
     />

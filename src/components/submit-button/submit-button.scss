@@ -6,4 +6,10 @@
   text-align: center;
   margin-bottom: 8px;
   color: #ffffff;
+  border-color: #1890ff;
+}
+
+.submit-button:disabled {
+  background: #86c4fe;
+  border-color: #86c4fe;
 }
