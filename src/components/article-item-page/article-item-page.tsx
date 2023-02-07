@@ -16,6 +16,7 @@ export const ArticleItemPage: React.FC = () => {
   const [status, setStatus]: any = useState("loading");
   const user: any = useSelector((state: any) => state.user);
   const { slug } = useParams();
+
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     const getArticle = async () => {
@@ -34,27 +35,26 @@ export const ArticleItemPage: React.FC = () => {
     };
 
     getArticle();
-  }, [slug]);
-
-  if (status === "loading") {
-    return (
-      <article className="full-page-article">
-        <Spinner />
-      </article>
-    );
-  }
-
-  const {
-    body,
-    title,
-    description,
-    tagList,
-    favoritesCount,
-    author,
-    favorited,
-    createdAt,
-  }: any = article.article;
+  }, [slug, article]);
   {
+    if (status === "loading") {
+      return (
+        <article className="full-page-article">
+          <Spinner />
+        </article>
+      );
+    }
+
+    const {
+      body,
+      title,
+      description,
+      tagList,
+      favoritesCount,
+      author,
+      favorited,
+      createdAt,
+    }: any = article.article;
     const newId = makeId();
     return (
       <article className="full-page-article shadow">
