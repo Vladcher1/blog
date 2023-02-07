@@ -56,7 +56,6 @@ export const ArticleItemPage: React.FC = () => {
   }: any = article.article;
   {
     const newId = makeId();
-    console.log(author.username, user.user.username);
     return (
       <article className="full-page-article shadow">
         <header className="full-page-article__header">

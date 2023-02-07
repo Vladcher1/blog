@@ -11,7 +11,7 @@ import {
 import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { ErrorNotification } from "../errorNotification/errorNotification";
 export interface ArticleFormProps {
   title: string;
 }
@@ -23,6 +23,7 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [needToNavigate, setNeedToNavigate]: any = useState(false);
+  const [error, seterror]: any = useState(false);
   const [article, setArticle]: any = useState({
     body: "",
     description: "",
@@ -55,22 +56,26 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
   }, [pageTitle, slug]);
 
   const onSubmit: onSubmitType = ({ tagList, description, body, title }) => {
-    let tagListArr = tagList;
-    if (!Array.isArray(tagList)) {
-      tagListArr = [tagList];
-    }
-    const tagListArray = tagListArr
+    seterror(false);
+
+    const tagListArray = tagList
       .map((tag: any) => tag.value.trim())
       .filter((tag: any) => tag.trim() !== "");
+
+    const difference = tagListArray.filter(
+      (el, index) => el !== article.tagList[index]
+    );
 
     const descriptionTrimmed = description.trim();
     const bodyTrimmed = body.trim();
     const titleTrimmed = title.trim();
-
     const needToUpdate =
       titleTrimmed !== article.title ||
       bodyTrimmed !== article.body ||
-      descriptionTrimmed !== article.description;
+      descriptionTrimmed !== article.description ||
+      difference.length !== 0 ||
+      tagListArray.length !== article.tagList.length;
+
     if (pageTitle === "Edit Article" && needToUpdate) {
       dispatch(
         updateArticle({
@@ -81,7 +86,11 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
           titleTrimmed,
         })
       );
-    } else {
+      reset();
+      setNeedToNavigate(true);
+    } else if (pageTitle === "Edit Article" && !needToUpdate) {
+      seterror(true);
+    } else if (pageTitle === "Create New Article") {
       dispatch(
         postArticle({
           tagListArray,
@@ -90,9 +99,9 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
           titleTrimmed,
         })
       );
+      reset();
+      setNeedToNavigate(true);
     }
-    reset();
-    setNeedToNavigate(true);
   };
 
   const {
@@ -109,17 +118,17 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
     },
   });
 
-  const tagArr = article.tagList.map((tag: any) => {
-    return { value: tag };
-  });
-
   useEffect(() => {
+    const tagArr = article.tagList.map((tag: any) => {
+      return { value: tag };
+    });
+
     if (pageTitle === "Create New Article" || tagArr.length === 0) {
-      setValue("tagList", { value: "" });
-    } else {
+      setValue("tagList", [{ value: "" }]);
+    } else if (pageTitle === "Edit Article") {
       setValue("tagList", tagArr);
     }
-  }, [article.tagList, pageTitle, setValue, tagArr]);
+  }, [article.tagList, pageTitle, setValue]);
 
   const { fields, append, remove }: any = useFieldArray({
     name: "tagList",
@@ -203,41 +212,49 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
         <div className="article-form__tags-container">
           <div className="article-form__tags">
             <span className="article-form__tag-title">Tag</span>
-            {fields.map((field: any, index: any) => (
-              <div className="article-form__tag" key={field.id}>
-                <Input
-                  textLabel=""
-                  required={false}
-                  label={`tagList.${index}.value`}
-                  register={register}
-                  placeholder="tag"
-                  inputType="text"
-                  defaultValue={""}
-                  maxLength={20}
-                  errors={errors}
-                />
-                <button
-                  className="article-form__button delete-button"
-                  type="button"
-                  onClick={() => {
-                    remove(index);
-                  }}>
-                  Delete
-                </button>
-              </div>
-            ))}{" "}
+
+            {fields.map((field: any, index: any) => {
+              return (
+                <div className="article-form__tag" key={field.id}>
+                  <Input
+                    textLabel=""
+                    required={false}
+                    label={`tagList.${index}.value`}
+                    register={register}
+                    placeholder="tag"
+                    inputType="text"
+                    defaultValue={""}
+                    maxLength={20}
+                    errors={errors}
+                  />
+                  <button
+                    className="article-form__button delete-button"
+                    type="button"
+                    onClick={() => {
+                      remove(index);
+                    }}>
+                    Delete
+                  </button>
+                </div>
+              );
+            })}
           </div>
           <button
             className="article-form__button add-button"
             type="button"
             onClick={() => {
-              append("new tag");
+              append("tag");
             }}>
             Add tag
           </button>
         </div>
       </form>
       <SubmitButton isValid={isValid} formName="article-form" />
+      {error && (
+        <ErrorNotification
+          error={{ status: 1, message: "You haven't changed anything" }}
+        />
+      )}
     </section>
   );
 };
