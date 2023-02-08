@@ -24,7 +24,6 @@ export const ArticleItem: React.FC<ArticleState> = ({
       </span>
     );
   });
-
   return (
     <article className="article-item shadow">
       <header className="article-item__header">

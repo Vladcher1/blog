@@ -14,6 +14,11 @@ import { useSelector } from "react-redux";
 export const ArticleItemPage: React.FC = () => {
   const [article, setArticle]: any = useState();
   const [status, setStatus]: any = useState("loading");
+  const [favoritedPage, setFavoritedPage] = useState({
+    favorited: false,
+    favoritedCount: 0,
+  });
+
   const user: any = useSelector((state: any) => state.user);
   const { slug } = useParams();
 
@@ -35,7 +40,7 @@ export const ArticleItemPage: React.FC = () => {
     };
 
     getArticle();
-  }, [slug, article]);
+  }, [slug, favoritedPage]);
   {
     if (status === "loading") {
       return (
@@ -56,14 +61,17 @@ export const ArticleItemPage: React.FC = () => {
       createdAt,
     }: any = article.article;
     const newId = makeId();
+
     return (
       <article className="full-page-article shadow">
         <header className="full-page-article__header">
           <h5 className="full-page-article__title">{title}</h5>
           <FavoriteButton
-            favorited={favorited}
+            favoritedPage={favoritedPage}
+            setFavoritedPage={setFavoritedPage}
             favoritesCount={favoritesCount}
             slug={slug}
+            favorited={favorited}
           />
 
           <div className="article-item__nickname-container">

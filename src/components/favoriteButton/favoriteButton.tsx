@@ -1,45 +1,143 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import {
-  favoriteArticle,
-  unfavoriteArticle,
-} from "../../fetchArticles/fetchArticlesSlice";
+import { ARTICLES_URL } from "../../fetchArticles/fetchArticlesSlice";
 import "./favoriteButton.scss";
 
 export interface FavoriteButtonProps {
-  favoritesCount: number;
+  favoritedCount?: number;
+  favoritesCount?: number;
+  favoritedPage?: { favorited: boolean; favoritedCount: number };
   slug?: string;
   favorited: boolean;
+  setFavoritedPage?: (object: any) => void;
 }
 
+export type favoritedFromArticleList = {
+  favorited: boolean;
+  favoritedCount?: number;
+};
+
 export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
-  favoritesCount,
   slug,
   favorited,
+  favoritedPage,
+  setFavoritedPage,
+  favoritesCount,
 }) => {
-  const dispatch = useDispatch();
   const isLogged: any = useSelector(({ user }: any) => user.isLogged);
   const [needToNavigate, setNavigation] = useState(false);
+  const [articleList, setArticleList] = useState<favoritedFromArticleList>({
+    favorited: false,
+    favoritedCount: 0,
+  });
+
+  const articleListRender = setFavoritedPage !== undefined;
+
+  useEffect(() => {
+    if (articleListRender) {
+      setFavoritedPage({ favorited, favoritedCount: favoritesCount });
+    } else {
+      setArticleList({ favorited, favoritedCount: favoritesCount });
+    }
+  }, [articleListRender, favorited, favoritesCount, setFavoritedPage]);
+
+  const setFavoriteFromServer = async () => {
+    const token = localStorage.getItem("userToken");
+    const { data } = await axios.post(
+      `${ARTICLES_URL}articles/${slug}/favorite`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (articleListRender) {
+      setFavoritedPage({
+        favorited: data.article.favorited,
+        favoritedCount: data.article.favoritesCount,
+      });
+    } else {
+      setArticleList({
+        favorited: data.article.favorited,
+        favoritedCount: data.article.favoritesCount,
+      });
+    }
+    return data;
+  };
+
+  const setUnfavoriteFromServer = async () => {
+    const token = localStorage.getItem("userToken");
+    const { data } = await axios.delete(
+      `${ARTICLES_URL}articles/${slug}/favorite`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (articleListRender) {
+      setFavoritedPage({
+        favorited: data.article.favorited,
+        favoritedCount: data.article.favoritesCount,
+      });
+    } else {
+      setArticleList({
+        favorited: data.article.favorited,
+        favoritedCount: data.article.favoritesCount,
+      });
+    }
+    return data;
+  };
 
   const onButtonClick = () => {
     if (isLogged) {
-      if (favorited) {
-        dispatch(unfavoriteArticle(slug));
+      if (articleListRender) {
+        if (favoritedPage?.favorited) {
+          setUnfavoriteFromServer();
+        } else {
+          setFavoriteFromServer();
+        }
       } else {
-        dispatch(favoriteArticle(slug));
+        if (articleList.favorited) {
+          setUnfavoriteFromServer();
+        } else {
+          setFavoriteFromServer();
+        }
       }
     } else {
       setNavigation(true);
     }
   };
+
   if (needToNavigate) {
     return <Navigate to="/sign-in" />;
   }
-  return (
-    <button className="article-item__like-btn" onClick={onButtonClick}>
-      <img src={favorited ? "/favorite.svg" : "/unfavorite.svg"} alt="like" />
-      <span className="article-item__like-btn-number">{favoritesCount}</span>
-    </button>
-  );
+  if (articleListRender) {
+    return (
+      <button className="article-item__like-btn" onClick={onButtonClick}>
+        <img
+          src={favoritedPage?.favorited ? "/favorite.svg" : "/unfavorite.svg"}
+          alt="like"
+        />
+        <span className="article-item__like-btn-number">
+          {favoritedPage?.favoritedCount}
+        </span>
+      </button>
+    );
+  } else {
+    return (
+      <button className="article-item__like-btn" onClick={onButtonClick}>
+        <img
+          src={articleList.favorited ? "/favorite.svg" : "/unfavorite.svg"}
+          alt="like"
+        />
+        <span className="article-item__like-btn-number">
+          {articleList.favoritedCount}
+        </span>
+      </button>
+    );
+  }
 };

@@ -51,7 +51,7 @@ export const ArticleList: React.FC = () => {
     }: any = article;
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
-
+    console.log(favoritesCount, favorited);
     return (
       <ArticleItem
         author={author}
