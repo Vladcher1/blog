@@ -6,11 +6,12 @@ export interface ArticleState {
   favorited: boolean;
   favoritesCount: number;
   slug: string;
-  tagList: string[];
+  tagList: Tag[];
   title: string;
   updatedAt?: string;
 }
 
+export type Tag = string;
 export interface AuthorState {
   username: string;
   bio: null;
@@ -28,7 +29,7 @@ export interface ArticlesState {
 }
 
 export interface DataUser {
-  user: UserState;
+  user: CurrentUserState;
 }
 
 export interface UserState {
@@ -41,7 +42,7 @@ export interface UserState {
 }
 
 export interface CurrentUserState {
-  error: string | null;
+  error: { status: number; message: string } | null;
   isLogged: boolean | null;
   user: UserState | null;
   status: string | null;

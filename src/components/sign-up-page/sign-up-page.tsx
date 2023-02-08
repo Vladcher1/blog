@@ -9,9 +9,11 @@ import axios from "axios";
 import { useState } from "react";
 import { ErrorNotification } from "../errorNotification/errorNotification";
 
+export type isErrorType = boolean;
+
 export const SignUpPage: React.FC = () => {
   const dispatch = useDispatch();
-  const [isError, setIsError]: any = useState(false);
+  const [isError, setIsError] = useState<isErrorType>(false);
   const [error, setError]: any = useState({});
 
   const signUpFetch: any = async (username: any, email: any, password: any) => {

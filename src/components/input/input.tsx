@@ -10,7 +10,7 @@ export interface InputProps {
   inputType: string;
   errors?: any;
   pattern?: string;
-  defaultValue?: string;
+  defaultValue?: string | null;
   textLabel: string;
   classNames?: string;
   styles?: any;
@@ -31,12 +31,6 @@ export const Input: React.FC<InputProps> = ({
   classNames,
   styles,
 }) => {
-  // const inputErrorStyle = errors[label] && {
-  //   borderColor: "#F5222D",
-  // };
-
-  // const error = useSelector((state) => state.user.error);
-
   return (
     <label className="label" style={styles}>
       {textLabel}

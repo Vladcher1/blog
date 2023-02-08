@@ -83,7 +83,7 @@ export const signInUserSlice: any = createAsyncThunk(
       const { password, email }: any = userData;
       const {
         data: { user },
-      } = await axios.post<DataUser>(`${USER_API}users/login`, {
+      } = await axios.post(`${USER_API}users/login`, {
         user: {
           email: `${email}`,
           password: `${password}`,
@@ -175,7 +175,6 @@ export const UserSlice: any = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { signUp, logOut, setError } = UserSlice.actions;
 
 export default UserSlice.reducer;

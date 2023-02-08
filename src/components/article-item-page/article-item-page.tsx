@@ -10,22 +10,30 @@ import { makeId } from "../../utilities";
 import Confirm from "../popconfirm/popconfirm";
 import { FavoriteButton } from "../favoriteButton/favoriteButton";
 import { useSelector } from "react-redux";
+import { StateI } from "../app/App";
+import { ArticleState } from "../../types";
+
+export type StatusType = string;
+export type FavoritedType = {
+  favorited: boolean;
+  favoritedCount: number;
+};
 
 export const ArticleItemPage: React.FC = () => {
   const [article, setArticle]: any = useState();
-  const [status, setStatus]: any = useState("loading");
-  const [favoritedPage, setFavoritedPage] = useState({
+  const [status, setStatus]: any = useState<StatusType>("loading");
+  const [favoritedPage, setFavoritedPage] = useState<FavoritedType>({
     favorited: false,
     favoritedCount: 0,
   });
 
-  const user: any = useSelector((state: any) => state.user);
+  const user = useSelector(({ user }: StateI) => user.user);
   const { slug } = useParams();
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     const getArticle = async () => {
-      const { data } = await axios.get(
+      const { data } = await axios.get<{ article: ArticleState }>(
         `https://blog.kata.academy/api/articles/${slug}`,
         {
           headers: {
@@ -34,9 +42,8 @@ export const ArticleItemPage: React.FC = () => {
           },
         }
       );
-      setArticle(data);
+      setArticle(data.article);
       setStatus("completed");
-      return data;
     };
 
     getArticle();
@@ -59,7 +66,7 @@ export const ArticleItemPage: React.FC = () => {
       author,
       favorited,
       createdAt,
-    }: any = article.article;
+    }: ArticleState = article;
     const newId = makeId();
 
     return (
@@ -98,7 +105,7 @@ export const ArticleItemPage: React.FC = () => {
         </div>
         <div className="full-page-article__article-info">
           {description}
-          {author.username === user.user.username && (
+          {author.username === user?.username && (
             <div className="full-page-article__buttons">
               <Confirm />
               <Link to={`/articles/${slug}/edit`} className="edit-button">

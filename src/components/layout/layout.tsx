@@ -4,9 +4,10 @@ import React from "react";
 import "./layout.scss";
 import Spinner from "../spinner/spinner";
 import { useSelector } from "react-redux";
+import { StateI } from "../app/App";
 
 export const Layout: React.FC = () => {
-  const status = useSelector((state: any) => state.user.status);
+  const status = useSelector((state: StateI) => state.user.status);
 
   return (
     <React.Fragment>

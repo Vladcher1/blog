@@ -8,7 +8,6 @@ export interface ErrorNotificationProps {
 export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   error,
 }) => {
-  // const errorText = Object.keys(error).concat(Object.values(error)).join(" ");
   const errorText = error.message;
   return (
     <Alert

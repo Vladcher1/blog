@@ -6,13 +6,14 @@ import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./editProfile.scss";
 import { UserState } from "../../types";
+import { StateI } from "../app/App";
 
 export type onSubmitEditType = (data: UserState) => void;
 
 export const EditProfile: React.FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
-  const error = useSelector((state: any) => state.user.error);
+  const user = useSelector((state: StateI) => state.user.user);
+  const error = useSelector((state: StateI) => state.user.error);
 
   const onSubmit: SubmitHandler<FieldValues> = ({
     image,
@@ -26,10 +27,10 @@ export const EditProfile: React.FC = () => {
     const newUsername = username?.trim();
 
     const needToUpdate =
-      newEmail !== user.user.email ||
-      newImage !== user.user.image ||
-      newPassword !== user.user.password ||
-      newUsername !== user.user.username;
+      newEmail !== user?.email ||
+      newImage !== user.image ||
+      newPassword !== user.password ||
+      newUsername !== user.username;
 
     if (needToUpdate) {
       dispatch(updateUser({ newEmail, newImage, newPassword, newUsername }));
@@ -62,7 +63,7 @@ export const EditProfile: React.FC = () => {
             register={register}
             placeholder="some-username"
             inputType="text"
-            defaultValue={user.user.username}
+            defaultValue={user?.username}
             minLength={3}
             maxLength={20}
             errors={errors}
@@ -72,13 +73,11 @@ export const EditProfile: React.FC = () => {
           <Input
             required={true}
             register={register}
-            defaultValue={user.user.email}
+            defaultValue={user?.email}
             textLabel="Email address"
             label="email"
             placeholder={"email address"}
             inputType={"text"}
-            // minLength={3}
-            // maxLength={20}
             errors={errors}
             pattern={String(EMAIL_REGEXP)}
           />
@@ -102,7 +101,7 @@ export const EditProfile: React.FC = () => {
             textLabel="Avatar image (url)"
             label="image"
             placeholder={"avatar image"}
-            defaultValue={user.user.image}
+            defaultValue={user?.image}
             inputType={"text"}
             minLength={3}
             maxLength={Infinity}

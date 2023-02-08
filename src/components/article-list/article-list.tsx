@@ -3,18 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { ArticleItem } from "../article-item/article-item";
 import "./article-list.scss";
 import { Pagination } from "antd";
-import { ArticlesState, ArticleState } from "../../types";
+import { ArticleState } from "../../types";
 import { makeId, cutInfo } from "../../utilities";
 import { fetchArticlesSlice } from "../../fetchArticles/fetchArticlesSlice";
 import Spinner from "../spinner/spinner";
+import { StateI } from "../app/App";
 
 export const ArticleList: React.FC = () => {
-  const articles: ArticlesState = useSelector(
-    (state: any) => state.fetchArticles
-  );
-  const page: any = useSelector(
-    (state: any) => state.fetchArticles.currentPage
-  );
+  const articles = useSelector((state: StateI) => state.fetchArticles);
+  const page = useSelector((state: StateI) => state.fetchArticles.currentPage);
 
   const dispatch = useDispatch();
 
@@ -37,18 +34,18 @@ export const ArticleList: React.FC = () => {
     );
   }
   const newId = makeId();
-  const articlesArr: any = articles.articles.map((article: ArticleState) => {
+  const articlesArr = articles.articles.map((article: ArticleState) => {
     const {
       body,
       slug,
       title,
       description,
       tagList,
-      updatedAt,
+      createdAt,
       favoritesCount,
       author,
       favorited,
-    }: any = article;
+    } = article;
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
     console.log(favoritesCount, favorited);
@@ -61,7 +58,7 @@ export const ArticleList: React.FC = () => {
         body={cutText}
         description={description}
         tagList={tagList}
-        createdAt={updatedAt}
+        createdAt={createdAt}
         favoritesCount={favoritesCount}
         favorited={favorited}
       />

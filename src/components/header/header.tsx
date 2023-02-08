@@ -2,9 +2,10 @@ import "./header.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logOut } from "../../user/userSlice";
+import { StateI } from "../app/App";
 
 export const Header: React.FC = () => {
-  const userInfo = useSelector((state: any) => state.user);
+  const userInfo = useSelector((state: StateI) => state.user);
   const dispatch = useDispatch();
   if (!userInfo.isLogged) {
     return (
@@ -33,16 +34,16 @@ export const Header: React.FC = () => {
       <div className="blog-header__user">
         <Link to="/profile">
           <span className="blog-header__user-username">
-            {userInfo.user.username}
+            {userInfo?.user?.username}
           </span>
         </Link>
         <img
           className="blog-header__profile-image"
           src={
-            userInfo.user.image ??
+            userInfo?.user?.image ??
             "https://api.realworld.io/images/smiley-cyrus.jpeg"
           }
-          alt={userInfo.user.username}
+          alt={String(userInfo?.user?.username)}
         />
       </div>
       <Link

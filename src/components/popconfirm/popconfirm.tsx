@@ -3,9 +3,10 @@ import { Popconfirm } from "antd";
 import { useDispatch } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import { deleteArticle } from "../../fetchArticles/fetchArticlesSlice";
+import { NavigateType } from "../articleForm/articleForm";
 
 const Confirm: React.FC = () => {
-  const [needToNavigate, setNeedToNavigate] = useState(false);
+  const [needToNavigate, setNeedToNavigate] = useState<NavigateType>(false);
   const dispatch = useDispatch();
   const slug = useParams();
   if (needToNavigate) {

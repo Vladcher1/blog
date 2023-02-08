@@ -11,11 +11,18 @@ import { SignUpPage } from "../sign-up-page/sign-up-page";
 import { EditProfile } from "../editProfile/editProfile";
 import { useSelector } from "react-redux";
 import { ArticleForm } from "../articleForm/articleForm";
+import { ArticlesState, CurrentUserState } from "../../types";
+
+export interface StateI {
+  user: CurrentUserState;
+  fetchArticles: ArticlesState;
+}
 
 const App: React.FC = () => {
-  const [network, setNetwork] = useState(true);
+  const [network, setNetwork] = useState<boolean>(true);
 
-  const isLogged = useSelector((state: any) => state.user.isLogged);
+  const isLogged = useSelector<StateI>(({ user }) => user.isLogged);
+
   useEffect(() => {
     window.onoffline = () => {
       setNetwork(false);
@@ -24,7 +31,6 @@ const App: React.FC = () => {
       setNetwork(true);
     };
   });
-  // const error = useSelector((state) => state.user.error);
 
   return (
     <div className="app">

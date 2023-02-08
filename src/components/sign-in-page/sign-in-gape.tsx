@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { signInUserSlice } from "../../user/userSlice";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Alert } from "antd";
+import { StateI } from "../app/App";
 
-// export type onSubmit
 export const SignInPage: React.FC = () => {
   const dispatch = useDispatch();
   const {
@@ -17,7 +17,7 @@ export const SignInPage: React.FC = () => {
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
   const error = useSelector((state: any) => state.user.error);
-  const status = useSelector((state: any) => state.user.status);
+  const status = useSelector((state: StateI) => state.user.status);
   const EMAIL_REGEXP =
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
@@ -42,13 +42,6 @@ export const SignInPage: React.FC = () => {
             placeholder={"Email address"}
             inputType={"text"}
           />
-          {/* {errorObject?.password && (
-            <div className="validation-error-container">
-              <span className="validation-error">
-                {`Password ${errorObject.password}`}
-              </span>
-            </div>
-          )} */}
         </div>
         <div className="sign-in__password">
           <Input
@@ -89,4 +82,3 @@ export const SignInPage: React.FC = () => {
     </section>
   );
 };
-// const m = `Email or password ${error["email or password"]}`;

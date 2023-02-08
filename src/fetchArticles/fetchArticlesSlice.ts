@@ -7,7 +7,6 @@ import { ArticlesState } from "../types";
 export const ARTICLES_URL = `https://blog.kata.academy/api/`;
 
 const initialState: any = {
-  // user: null,
   articles: [],
   status: "loading", //'loading', 'succeeded', 'fail'
   error: null,
@@ -143,55 +142,6 @@ export const deleteArticle: any = createAsyncThunk(
   }
 );
 
-// export const favoriteArticle: any = createAsyncThunk(
-  // "articles/favoriteArticle",
-  // async (slug: ArticlesState, { rejectWithValue }) => {
-    // try {
-    //   const token = localStorage.getItem("userToken");
-    //   const { data } = await axios.post(
-    //     `${ARTICLES_URL}articles/${slug}/favorite`,
-    //     {},
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   );
-    //   return data;
-    // } catch (error: any) {
-    //   if (error.response) {
-    //     return rejectWithValue(error.response.data.errors);
-    //   } else if (error.request) {
-    //     return rejectWithValue(error.request);
-    //   }
-    // }
-//   }
-// );
-
-// export const unfavoriteArticle: any = createAsyncThunk(
-//   "articles/unfavoriteArticle",
-//   async (slug: ArticlesState, { rejectWithValue }) => {
-//     try {
-//       const token = localStorage.getItem("userToken");
-//       const { data } = await axios.delete(
-//         `${ARTICLES_URL}articles/${slug}/favorite`,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       );
-//       return data;
-//     } catch (error: any) {
-//       if (error.response) {
-//         return rejectWithValue(error.response.data.errors);
-//       } else if (error.request) {
-//         return rejectWithValue(error.request);
-//       }
-//     }
-//   }
-// );
-
 export const ArticlesSlice = createSlice({
   name: "articles",
   initialState,
@@ -271,41 +221,9 @@ export const ArticlesSlice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
-    //.......................................
-
-    // [favoriteArticle.fulfilled]: (state: any, action: any) => {
-    //   state.status = "succeeded";
-    //   state.articles = state.articles.map((article: any) => {
-    //     if (article.slug === action.payload.article.slug) {
-    //       return action.payload.article;
-    //     }
-    //     return article;
-    //   });
-    // },
-    // [favoriteArticle.rejected]: (state: any, action: any) => {
-    //   state.status = "failed";
-    //   state.error = action.error;
-    // },
-
-    //.......................................
-
-    // [unfavoriteArticle.fulfilled]: (state: any, action: any) => {
-    //   state.status = "succeeded";
-    //   state.articles = state.articles.map((article: any) => {
-    //     if (article.slug === action.payload.article.slug) {
-    //       return action.payload.article;
-    //     }
-    //     return article;
-    //   });
-    // },
-    // [unfavoriteArticle.rejected]: (state: any, action: any) => {
-    //   state.status = "failed";
-    //   state.error = action.error;
-    // },
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { fetchArticles, setStatus }: any = ArticlesSlice.actions;
 
 export default ArticlesSlice.reducer;

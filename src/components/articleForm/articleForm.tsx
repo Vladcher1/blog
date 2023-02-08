@@ -1,5 +1,5 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import { ArticleState } from "../../types";
+import { ArticleState, Tag } from "../../types";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./articleForm.scss";
@@ -17,14 +17,21 @@ export interface ArticleFormProps {
 }
 
 export type onSubmitType = (data: ArticleState) => void;
+export type NavigateType = boolean;
+export type errorType = boolean;
 
 export const ArticleForm: React.FC<ArticleFormProps> = ({
   title: pageTitle = "",
 }) => {
   const dispatch = useDispatch();
-  const [needToNavigate, setNeedToNavigate]: any = useState(false);
-  const [error, seterror]: any = useState(false);
-  const [article, setArticle]: any = useState({
+  const [needToNavigate, setNeedToNavigate] = useState<NavigateType>(false);
+  const [error, seterror] = useState<errorType>(false);
+  const [article, setArticle] = useState<
+    Pick<
+      ArticleState,
+      "body" | "description" | "tagList" | "title" | "updatedAt" | "createdAt"
+    >
+  >({
     body: "",
     description: "",
     tagList: [""],
@@ -38,7 +45,7 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
   useEffect(() => {
     if (pageTitle === "Edit Article") {
       const getArticle = async () => {
-        const { data } = await axios.get(
+        const { data } = await axios.get<{ article: ArticleState }>(
           `https://blog.kata.academy/api/articles/${slug}`,
           {
             headers: {
@@ -60,7 +67,7 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
 
     const tagListArray = tagList
       .map((tag: any) => tag.value.trim())
-      .filter((tag: any) => tag.trim() !== "");
+      .filter((tag: Tag) => tag.trim() !== "");
 
     const difference = tagListArray.filter(
       (el, index) => el !== article.tagList[index]
@@ -119,7 +126,7 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
   });
 
   useEffect(() => {
-    const tagArr = article.tagList.map((tag: any) => {
+    const tagArr = article.tagList.map((tag: Tag) => {
       return { value: tag };
     });
 

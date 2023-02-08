@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { ARTICLES_URL } from "../../fetchArticles/fetchArticlesSlice";
+import { NavigateType } from "../articleForm/articleForm";
 import "./favoriteButton.scss";
 
 export interface FavoriteButtonProps {
@@ -27,7 +28,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   favoritesCount,
 }) => {
   const isLogged: any = useSelector(({ user }: any) => user.isLogged);
-  const [needToNavigate, setNavigation] = useState(false);
+  const [needToNavigate, setNavigation] = useState<NavigateType>(false);
   const [articleList, setArticleList] = useState<favoritedFromArticleList>({
     favorited: false,
     favoritedCount: 0,
