@@ -11,6 +11,46 @@ export interface ArticleState {
   updatedAt?: string;
 }
 
+export interface StateI {
+  user: CurrentUserState;
+  fetchArticles: ArticlesState;
+}
+
+export type StatusType = string;
+export type FavoritedType = {
+  favorited: boolean;
+  favoritedCount: number;
+};
+
+export interface ArticleFormProps {
+  title: string;
+}
+
+export type onSubmitType = (data: ArticleState) => void;
+export type NavigateType = boolean;
+export type errorType = boolean;
+export type onSubmitEditType = (data: UserState) => void;
+
+
+export interface InputProps {
+  label: string;
+  register: any;
+  required?: boolean;
+  maxLength?: number;
+  placeholder?: string;
+  minLength?: number;
+  inputType: string;
+  errors?: any;
+  pattern?: string;
+  defaultValue?: string | null;
+  textLabel: string;
+  classNames?: string;
+  styles?: any;
+}
+
+
+export type isErrorType = boolean;
+
 export type Tag = string;
 export interface AuthorState {
   username: string;

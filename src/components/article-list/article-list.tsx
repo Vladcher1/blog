@@ -3,11 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { ArticleItem } from "../article-item/article-item";
 import "./article-list.scss";
 import { Pagination } from "antd";
-import { ArticleState } from "../../types";
+import { ArticleState, StateI } from "../../types";
 import { makeId, cutInfo } from "../../utilities";
 import { fetchArticlesSlice } from "../../fetchArticles/fetchArticlesSlice";
 import Spinner from "../spinner/spinner";
-import { StateI } from "../app/App";
 
 export const ArticleList: React.FC = () => {
   const articles = useSelector((state: StateI) => state.fetchArticles);
@@ -48,7 +47,6 @@ export const ArticleList: React.FC = () => {
     } = article;
     const cutText = cutInfo(body, 100);
     const cutTitle = cutInfo(title, 50);
-    console.log(favoritesCount, favorited);
     return (
       <ArticleItem
         author={author}

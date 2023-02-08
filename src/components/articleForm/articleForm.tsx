@@ -1,5 +1,5 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import { ArticleState, Tag } from "../../types";
+import { ArticleFormProps, ArticleState, errorType, NavigateType, onSubmitType, Tag } from "../../types";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./articleForm.scss";
@@ -12,13 +12,6 @@ import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ErrorNotification } from "../errorNotification/errorNotification";
-export interface ArticleFormProps {
-  title: string;
-}
-
-export type onSubmitType = (data: ArticleState) => void;
-export type NavigateType = boolean;
-export type errorType = boolean;
 
 export const ArticleForm: React.FC<ArticleFormProps> = ({
   title: pageTitle = "",

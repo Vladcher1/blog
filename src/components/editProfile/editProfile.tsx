@@ -5,10 +5,7 @@ import { ErrorNotification } from "../errorNotification/errorNotification";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./editProfile.scss";
-import { UserState } from "../../types";
-import { StateI } from "../app/App";
-
-export type onSubmitEditType = (data: UserState) => void;
+import { StateI } from "../../types";
 
 export const EditProfile: React.FC = () => {
   const dispatch = useDispatch();

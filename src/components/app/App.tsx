@@ -11,12 +11,8 @@ import { SignUpPage } from "../sign-up-page/sign-up-page";
 import { EditProfile } from "../editProfile/editProfile";
 import { useSelector } from "react-redux";
 import { ArticleForm } from "../articleForm/articleForm";
-import { ArticlesState, CurrentUserState } from "../../types";
+import {  StateI } from "../../types";
 
-export interface StateI {
-  user: CurrentUserState;
-  fetchArticles: ArticlesState;
-}
 
 const App: React.FC = () => {
   const [network, setNetwork] = useState<boolean>(true);

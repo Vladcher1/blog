@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import { ErrorNotification } from "../errorNotification/errorNotification";
+import { isErrorType } from "../../types";
 
-export type isErrorType = boolean;
 
 export const SignUpPage: React.FC = () => {
   const dispatch = useDispatch();

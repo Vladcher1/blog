@@ -4,7 +4,7 @@ import React from "react";
 import "./layout.scss";
 import Spinner from "../spinner/spinner";
 import { useSelector } from "react-redux";
-import { StateI } from "../app/App";
+import { StateI } from "../../types";
 
 export const Layout: React.FC = () => {
   const status = useSelector((state: StateI) => state.user.status);

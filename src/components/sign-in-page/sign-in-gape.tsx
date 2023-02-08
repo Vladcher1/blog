@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signInUserSlice } from "../../user/userSlice";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Alert } from "antd";
-import { StateI } from "../app/App";
+import { StateI } from "../../types";
 
 export const SignInPage: React.FC = () => {
   const dispatch = useDispatch();

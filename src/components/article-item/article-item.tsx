@@ -17,7 +17,6 @@ export const ArticleItem: React.FC<ArticleState> = ({
   favorited,
 }) => {
   const newId = makeId();
-  console.log(tagList);
   const tagSpans = tagList.map((tag: Tag) => {
     return (
       <span className="article-item__tag" key={newId()}>

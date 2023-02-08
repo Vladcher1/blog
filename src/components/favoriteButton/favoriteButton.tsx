@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { ARTICLES_URL } from "../../fetchArticles/fetchArticlesSlice";
-import { NavigateType } from "../articleForm/articleForm";
+import { NavigateType } from "../../types";
 import "./favoriteButton.scss";
 
 export interface FavoriteButtonProps {

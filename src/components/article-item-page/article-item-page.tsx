@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import axios from "axios";
 import Spinner from "../spinner/spinner";
 import { format } from "date-fns";
@@ -10,14 +10,9 @@ import { makeId } from "../../utilities";
 import Confirm from "../popconfirm/popconfirm";
 import { FavoriteButton } from "../favoriteButton/favoriteButton";
 import { useSelector } from "react-redux";
-import { StateI } from "../app/App";
-import { ArticleState } from "../../types";
+import { ArticleState, FavoritedType, StateI, StatusType } from "../../types";
 
-export type StatusType = string;
-export type FavoritedType = {
-  favorited: boolean;
-  favoritedCount: number;
-};
+
 
 export const ArticleItemPage: React.FC = () => {
   const [article, setArticle]: any = useState();

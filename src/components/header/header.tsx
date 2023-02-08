@@ -2,7 +2,7 @@ import "./header.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logOut } from "../../user/userSlice";
-import { StateI } from "../app/App";
+import { StateI } from "../../types";
 
 export const Header: React.FC = () => {
   const userInfo = useSelector((state: StateI) => state.user);

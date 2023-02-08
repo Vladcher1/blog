@@ -1,20 +1,6 @@
+import { InputProps } from "../../types";
 import "./input.scss";
 
-export interface InputProps {
-  label: string;
-  register: any;
-  required?: boolean;
-  maxLength?: number;
-  placeholder?: string;
-  minLength?: number;
-  inputType: string;
-  errors?: any;
-  pattern?: string;
-  defaultValue?: string | null;
-  textLabel: string;
-  classNames?: string;
-  styles?: any;
-}
 
 export const Input: React.FC<InputProps> = ({
   label,
