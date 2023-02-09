@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "../spinner/spinner";
 import { format } from "date-fns";
@@ -11,8 +11,6 @@ import Confirm from "../popconfirm/popconfirm";
 import { FavoriteButton } from "../favoriteButton/favoriteButton";
 import { useSelector } from "react-redux";
 import { ArticleState, FavoritedType, StateI, StatusType } from "../../types";
-
-
 
 export const ArticleItemPage: React.FC = () => {
   const [article, setArticle]: any = useState();
@@ -98,7 +96,12 @@ export const ArticleItemPage: React.FC = () => {
             );
           })}
         </div>
-        <div className="full-page-article__article-info">
+        <div
+          className={
+            author.username === user?.username
+              ? "full-page-article__article-info user-article"
+              : "full-page-article__article-info"
+          }>
           {description}
           {author.username === user?.username && (
             <div className="full-page-article__buttons">
