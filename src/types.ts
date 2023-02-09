@@ -98,3 +98,10 @@ export interface NewUserData {
 export interface updateUserData extends UserState {
   token: string | null;
 }
+
+export type makeIdType = () => () => number;
+export type cutInfoType = (
+  text: string,
+  cutCount: number,
+  mode: string
+) => string;
