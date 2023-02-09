@@ -44,7 +44,7 @@ export const fetchArticlesSlice: any = createAsyncThunk(
 
 export const postArticle: any = createAsyncThunk(
   "articles/postArticle",
-  async (article: ArticlesState, { rejectWithValue }) => {
+  async (article: ArticlesState, { dispatch, rejectWithValue }) => {
     try {
       const token = localStorage.getItem("userToken");
 
@@ -70,6 +70,7 @@ export const postArticle: any = createAsyncThunk(
           },
         }
       );
+      dispatch(fetchArticlesSlice(1));
       return data;
     } catch (error: any) {
       if (error.response) {
@@ -123,7 +124,7 @@ export const updateArticle: any = createAsyncThunk(
 
 export const deleteArticle: any = createAsyncThunk(
   "articles/deleteArticle",
-  async (slug: ArticlesState, { rejectWithValue }) => {
+  async (slug: ArticlesState, { dispatch, rejectWithValue }) => {
     try {
       const token = localStorage.getItem("userToken");
       await axios.delete(`${ARTICLES_URL}articles/${slug.slug}`, {
@@ -131,6 +132,7 @@ export const deleteArticle: any = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
+      dispatch(fetchArticlesSlice(1));
       return slug.slug;
     } catch (error: any) {
       if (error.response) {
