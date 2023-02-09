@@ -21,6 +21,8 @@
   margin: 0;
   margin-bottom: 6px;
   margin-right: 13px;
+  overflow-wrap: break-word;
+  max-width: 80%;
 }
 
 .full-page-article__like-btn {
@@ -31,15 +33,19 @@
 }
 .full-page-article__tags {
   margin-bottom: 19px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
 }
 
 .full-page-article__article-info {
   color: rgba(0, 0, 0, 0.5);
   font-size: 12px;
   line-height: 22px;
-  display: flex;
-  justify-content: space-between;
-
+  // display: flex;
+  // justify-content: space-between;
+  overflow-wrap: break-word;
   margin-bottom: 25px;
 }
 

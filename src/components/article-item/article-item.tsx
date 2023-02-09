@@ -1,6 +1,6 @@
 import React from "react";
 import "./article-item.scss";
-import { cutInfo, makeId } from "../../utilities";
+import { cutInfo, cutText, makeId } from "../../utilities";
 import { Link } from "react-router-dom";
 import { ArticleState, Tag } from "../../types";
 import { format } from "date-fns";
@@ -20,7 +20,7 @@ export const ArticleItem: React.FC<ArticleState> = ({
   const tagSpans = tagList.map((tag: Tag) => {
     return (
       <span className="article-item__tag" key={newId()}>
-        {cutInfo(tag, 15)}
+        {cutInfo(tag, 15, cutText)}
       </span>
     );
   });

@@ -4,7 +4,7 @@ import { ArticleItem } from "../article-item/article-item";
 import "./article-list.scss";
 import { Pagination } from "antd";
 import { ArticleState, StateI } from "../../types";
-import { makeId, cutInfo } from "../../utilities";
+import { makeId, cutInfo, cutText } from "../../utilities";
 import { fetchArticlesSlice } from "../../fetchArticles/fetchArticlesSlice";
 import Spinner from "../spinner/spinner";
 
@@ -45,16 +45,17 @@ export const ArticleList: React.FC = () => {
       author,
       favorited,
     } = article;
-    const cutText = cutInfo(body, 100);
-    const cutTitle = cutInfo(title, 50);
+    const cutBody = cutInfo(body, 100, cutText);
+    const cutTitle = cutInfo(title, 30, cutText);
+    const cutDescription = cutInfo(description, 200, cutText);
     return (
       <ArticleItem
         author={author}
         slug={slug}
         key={newId()}
         title={cutTitle}
-        body={cutText}
-        description={description}
+        body={cutBody}
+        description={cutDescription}
         tagList={tagList}
         createdAt={createdAt}
         favoritesCount={favoritesCount}
