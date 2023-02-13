@@ -11,8 +11,7 @@ import { SignUpPage } from "../sign-up-page/sign-up-page";
 import { EditProfile } from "../editProfile/editProfile";
 import { useSelector } from "react-redux";
 import { ArticleForm } from "../articleForm/articleForm";
-import {  StateI } from "../../types";
-
+import { StateI } from "../../types";
 
 const App: React.FC = () => {
   const [network, setNetwork] = useState<boolean>(true);
@@ -32,7 +31,7 @@ const App: React.FC = () => {
     <div className="app">
       {!network && <NetworkError />}
       <Routes>
-        <Route path="/articles" element={<Layout />}>
+        <Route path="/articles/:page" element={<Layout />}>
           <Route index element={<ArticleList />} />
           <Route path="articles" element={<ArticleList />} />
           <Route
@@ -48,7 +47,8 @@ const App: React.FC = () => {
               ) : (
                 <ArticleForm title="Edit Article" />
               )
-            }></Route>
+            }
+          ></Route>
         </Route>
         <Route path="/*" element={<Layout />}>
           <Route

@@ -22,7 +22,8 @@ const Confirm: React.FC = () => {
         setNeedToNavigate(true);
       }}
       okText="Yes"
-      cancelText="No">
+      cancelText="No"
+    >
       <a href="/#" className="article-form__button delete-button">
         Delete
       </a>

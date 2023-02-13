@@ -101,7 +101,8 @@ export const ArticleItemPage: React.FC = () => {
             author.username === user?.username
               ? "full-page-article__article-info user-article"
               : "full-page-article__article-info"
-          }>
+          }
+        >
           {description}
           {author.username === user?.username && (
             <div className="full-page-article__buttons">

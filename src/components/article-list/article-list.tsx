@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ArticleItem } from "../article-item/article-item";
 import "./article-list.scss";
@@ -7,16 +7,27 @@ import { ArticleState, StateI } from "../../types";
 import { makeId, cutInfo, cutText } from "../../utilities";
 import { fetchArticlesSlice } from "../../fetchArticles/fetchArticlesSlice";
 import Spinner from "../spinner/spinner";
+import { useParams, useNavigate } from "react-router-dom";
 
 export const ArticleList: React.FC = () => {
   const articles = useSelector((state: StateI) => state.fetchArticles);
-  const page = useSelector((state: StateI) => state.fetchArticles.currentPage);
-
+  const { page } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [curPage, setCurPage] = useState(page);
+
+  useEffect(() => {
+    setCurPage(page);
+  }, [page]);
 
   const onChange = (page: number) => {
-    dispatch(fetchArticlesSlice(page));
+    setCurPage(String(page));
   };
+
+  useEffect(() => {
+    dispatch(fetchArticlesSlice(curPage));
+    navigate(`/articles/${curPage}`);
+  }, [curPage]);
 
   if (articles.status === "loading") {
     return (
@@ -69,7 +80,7 @@ export const ArticleList: React.FC = () => {
       <section className="article-list">{articlesArr}</section>
       <Pagination
         className="pagination"
-        current={page}
+        current={Number(page)}
         total={articles.articlesCount || undefined}
         pageSize={5}
         onChange={onChange}

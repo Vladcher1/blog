@@ -10,7 +10,6 @@ import { useState } from "react";
 import { ErrorNotification } from "../errorNotification/errorNotification";
 import { isErrorType } from "../../types";
 
-
 export const SignUpPage: React.FC = () => {
   const dispatch = useDispatch();
   const [isError, setIsError] = useState<isErrorType>(false);

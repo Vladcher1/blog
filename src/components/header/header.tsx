@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
   if (!userInfo.isLogged) {
     return (
       <header className="blog-header">
-        <Link to={``} className="blog-header__logo">
+        <Link to={`/articles/1`} className="blog-header__logo">
           <h6>Realworld Blog</h6>
         </Link>
         <Link className="button sign-in-btn" to="/sign-in">
@@ -25,7 +25,7 @@ export const Header: React.FC = () => {
 
   return (
     <header className="blog-header">
-      <Link to={``} className="blog-header__logo">
+      <Link to={`/articles/1`} className="blog-header__logo">
         <h6>Realworld Blog</h6>
       </Link>
       <Link to="/new-article" className="create-article-link ">
@@ -51,7 +51,8 @@ export const Header: React.FC = () => {
         to="/sign-in"
         onClick={() => {
           dispatch(logOut());
-        }}>
+        }}
+      >
         Log Out
       </Link>
     </header>

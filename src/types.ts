@@ -31,7 +31,6 @@ export type NavigateType = boolean;
 export type errorType = boolean;
 export type onSubmitEditType = (data: UserState) => void;
 
-
 export interface InputProps {
   label: string;
   register: any;
@@ -47,7 +46,6 @@ export interface InputProps {
   classNames?: string;
   styles?: any;
 }
-
 
 export type isErrorType = boolean;
 

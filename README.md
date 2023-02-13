@@ -1,6 +1,6 @@
 # Getting Started with Create React App
-https://blog-beta-umber-60.vercel.app/articles
 
+https://blog-beta-umber-60.vercel.app/articles
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

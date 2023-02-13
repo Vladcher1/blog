@@ -1,5 +1,12 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import { ArticleFormProps, ArticleState, errorType, NavigateType, onSubmitType, Tag } from "../../types";
+import {
+  ArticleFormProps,
+  ArticleState,
+  errorType,
+  NavigateType,
+  onSubmitType,
+  Tag,
+} from "../../types";
 import { Input } from "../input/input";
 import { SubmitButton } from "../submit-button/submit-button";
 import "./articleForm.scss";
@@ -147,7 +154,8 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
       <form
         id="article-form"
         className="article-form__form"
-        onSubmit={handleSubmit(onSubmit)}>
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Input
           styles={{ marginBottom: "21px" }}
           classNames="article-form__input"
@@ -232,7 +240,8 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
                     type="button"
                     onClick={() => {
                       remove(index);
-                    }}>
+                    }}
+                  >
                     Delete
                   </button>
                 </div>
@@ -244,7 +253,8 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
             type="button"
             onClick={() => {
               append("tag");
-            }}>
+            }}
+          >
             Add tag
           </button>
         </div>
